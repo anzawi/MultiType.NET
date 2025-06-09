@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiType.NET.Core", "MultiType.NET.Core\MultiType.NET.Core.csproj", "{89405DA2-035F-4B7A-BF81-6F77259F491A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiType.NET.Generators", "MultiType.NET.Generators\MultiType.NET.Generators.csproj", "{15C93C22-D5B3-4703-851A-C546289987CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89405DA2-035F-4B7A-BF81-6F77259F491A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89405DA2-035F-4B7A-BF81-6F77259F491A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89405DA2-035F-4B7A-BF81-6F77259F491A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89405DA2-035F-4B7A-BF81-6F77259F491A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C93C22-D5B3-4703-851A-C546289987CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C93C22-D5B3-4703-851A-C546289987CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C93C22-D5B3-4703-851A-C546289987CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C93C22-D5B3-4703-851A-C546289987CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
