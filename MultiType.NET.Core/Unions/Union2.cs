@@ -1,5 +1,8 @@
 namespace MultiType.NET.Core.Unions;
 
+using Exceptions;
+using Helpers;
+
 /// <inheritdoc />
 public readonly struct Union<T1, T2> : IUnion
 {
@@ -110,6 +113,92 @@ public readonly struct Union<T1, T2> : IUnion
     {
         if (this.IsNull) return null;
         return this.As<T>();
+    }
+
+
+    public T1 GetT1(out Union<T2>? remainder)
+    {
+        // Initialize out parameter early (Defensive Programming)
+        remainder = default;
+
+        try
+        {
+            Guards.ThrowIfNotInitialized(TypeIndex, typeof(T1));
+            Guards.ThrowIfNotOutOfRange(TypeIndex, 2);
+            Guards.ThrowIfNull(Value, typeof(T1), TypeIndex);
+            Guards.ThrowIfTypeMismatch<T1>(TypeIndex, 1, Value, out T1 typedValue);
+
+            return typedValue;
+        }
+        catch (Exception ex) when (ex is not InvalidUnionStateException)
+        {
+            // Wrap unexpected exceptions (Better Exception Handling)
+            throw new InvalidUnionStateException(
+                $"""
+                 Unexpected error getting value of type {typeof(T1).Name}
+                 TypeIndex: {TypeIndex}
+                 Value type: {Value?.GetType().Name ?? "null"}
+                 """,
+                ex);
+        }
+    }
+
+    public T2 GetT2(out Union<T1>? remainder)
+    {
+        remainder = default;
+
+        try
+        {
+            Guards.ThrowIfNotInitialized(TypeIndex, typeof(T2));
+            Guards.ThrowIfNotOutOfRange(TypeIndex, 2);
+            Guards.ThrowIfNull(Value, typeof(T2), TypeIndex);
+            Guards.ThrowIfTypeMismatch<T2>(TypeIndex, 1, Value, out T2 typedValue);
+
+            return typedValue;
+        }
+        catch (Exception ex) when (ex is not InvalidUnionStateException)
+        {
+            throw new InvalidUnionStateException(
+                $"""
+                 Unexpected error getting value of type {typeof(T2).Name}
+                 TypeIndex: {TypeIndex}
+                 Value type: {Value?.GetType().Name ?? "null"}
+                 """,
+                ex);
+        }
+    }
+
+    public bool TryGetT1(out T1 value, out Union<T2>? remainder)
+    {
+        // Initialize out parameters early (Defensive Programming)
+        value = default!;
+        remainder = default;
+
+        // Early exit for obvious failures (Performance)
+        if (TypeIndex != 1 || Value is null)
+            return false;
+
+        // Type checking with pattern matching (Type Safety)
+        if (Value is not T1 typedValue)
+            return false;
+
+        value = typedValue;
+        return true;
+    }
+
+    public bool TryGetT2(out T2 value, out Union<T1>? remainder)
+    {
+        value = default!;
+        remainder = default;
+
+        if (TypeIndex != 2 || Value is null)
+            return false;
+
+        if (Value is not T2 typedValue)
+            return false;
+
+        value = typedValue;
+        return true;
     }
 
 

@@ -1,4 +1,4 @@
-namespace MultiType.NET.Core;
+namespace MultiType.NET.Core.Extensions;
 
 using Unions;
 
@@ -50,7 +50,7 @@ public static class MatchExtensions
         {
             return false;
         }
-        
+
         if (union.Is<T>())
         {
             action(union.As<T>());
@@ -60,7 +60,6 @@ public static class MatchExtensions
         return false;
     }
 
-    // Union<T1,T2>
     /// Evaluates the current `Union` instance using the appropriate case function and returns a result of type `TResult`.
     /// <param name="union">
     /// The `Union` instance containing two possible types.
@@ -112,16 +111,18 @@ public static class MatchExtensions
     }
 
     /// <summary>
-    /// Attempts to match the current union value to the specified type <typeparamref name="T"/>.
+    /// Attempts to match a union containing two possible types against provided case functions and transforms it to a result.
+    /// This is a "soft" matching operation where case handlers are optional.
     /// </summary>
-    /// <typeparam name="T">The type to match against the current union value.</typeparam>
-    /// <param name="union">The union instance.</param>
-    /// <param name="value">
-    /// When this method returns, contains the value of type <typeparamref name="T"/> if the
-    /// match is successful; otherwise, the default value of <typeparamref name="T"/>.
-    /// </param>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="TResult">The type of the result after transformation</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional function to handle and transform the first type. If null, this case is skipped</param>
+    /// <param name="case2">Optional function to handle and transform the second type. If null, this case is skipped</param>
     /// <returns>
-    /// True if the current union value matches the specified type <typeparamref name="T"/>; otherwise, false.
+    /// The transformed result if a matching non-null case function was found and executed;
+    /// otherwise returns default value of <typeparamref name="TResult"/>.
     /// </returns>
     public static TResult? TryMatch<T1, T2, TResult>(
         this Union<T1, T2> union,
@@ -137,17 +138,20 @@ public static class MatchExtensions
     }
 
     /// <summary>
-    /// Attempts to match the underlying value of the union with the specified type parameter T.
+    /// Tries to invoke the provided actions based on the type of the union instance.
+    /// Executes the action corresponding to the contained type within the union if type matching occurs.
     /// </summary>
-    /// <typeparam name="T">The type to attempt to match within the union.</typeparam>
-    /// <param name="union">The union instance being extended.</param>
-    /// <param name="value">
-    /// When the method returns, this parameter will contain the value of type T if the match is successful;
-    /// otherwise, it will be null.
+    /// <typeparam name="T1">The first possible type of the union's contained value.</typeparam>
+    /// <typeparam name="T2">The second possible type of the union's contained value.</typeparam>
+    /// <param name="union">The union instance whose contained value is to be matched and processed.</param>
+    /// <param name="case1">
+    /// The action to execute if the union's contained value matches the first type <typeparamref name="T1"/>.
+    /// If no match occurs, the action will not be invoked.
     /// </param>
-    /// <returns>
-    /// True if the union contains a value of the specified type T; otherwise, false.
-    /// </returns>
+    /// <param name="case2">
+    /// The action to execute if the union's contained value matches the second type <typeparamref name="T2"/>.
+    /// If no match occurs, the action will not be invoked.
+    /// </param>
     public static void TryMatch<T1, T2>(
         this Union<T1, T2> union,
         Action<T1?>? case1 = null,
@@ -164,14 +168,24 @@ public static class MatchExtensions
         }
     }
 
-    // Union<T1,T2,T3>
-    /// Matches a `Union<T1, T2, T3>` to one of the specified cases and returns the result of the matching function.
-    /// <param name="union">The union instance to match against.</param>
-    /// <param name="case1">The function to invoke if the union holds a value of type `T1`.</param>
-    /// <param name="case2">The function to invoke if the union holds a value of type `T2`.</param>
-    /// <param name="case3">The function to invoke if the union holds a value of type `T3`.</param>
-    /// <returns>The result of the invoked matching function based on the union's value type.</returns>
-    /// <exception cref="InvalidOperationException">Thrown if the union is not initialized.</exception>
+    /// <summary>
+    /// Matches the current union instance to one of the specified cases and returns a value
+    /// determined by the corresponding case function.
+    /// </summary>
+    /// <typeparam name="T1">The first possible type in the union.</typeparam>
+    /// <typeparam name="T2">The second possible type in the union.</typeparam>
+    /// <typeparam name="T3">The third possible type in the union.</typeparam>
+    /// <typeparam name="TResult">The type of the result returned by the case functions.</typeparam>
+    /// <param name="union">The union instance containing a value of one of the specified types.</param>
+    /// <param name="case1">The function to execute if the union contains a value of type <typeparamref name="T1"/>.</param>
+    /// <param name="case2">The function to execute if the union contains a value of type <typeparamref name="T2"/>.</param>
+    /// <param name="case3">The function to execute if the union contains a value of type <typeparamref name="T3"/>.</param>
+    /// <returns>
+    /// A value of type <typeparamref name="TResult"/> produced by the case function corresponding to the union's contained value.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the union is not initialized or if the contained value does not match any of the cases.
+    /// </exception>
     public static TResult Match<T1, T2, T3, TResult>(
         this Union<T1, T2, T3> union,
         Func<T1?, TResult> case1,
@@ -214,11 +228,22 @@ public static class MatchExtensions
         }
     }
 
-    /// Attempts to match the current union to the specified type and retrieves the value if a match is found.
-    /// <typeparam name="T">The type to match against the union.</typeparam>
-    /// <param name="union">The union instance to attempt to match.</param>
-    /// <param name="value">The resulting value if the match is successful, or default if not.</param>
-    /// <returns>True if the union matches the specified type; otherwise, false.</returns>
+    /// <summary>
+    /// Attempts to match a union containing two possible types against provided case functions and transforms it to a result.
+    /// This is a "soft" matching operation where case handlers are optional.
+    /// </summary>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="T3">Type of third possible value (Note: This appears to be unused as union only contains T1 and T2)</typeparam>
+    /// <typeparam name="TResult">The type of the result after transformation</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional function to handle and transform the first type. If null, this case is skipped</param>
+    /// <param name="case2">Optional function to handle and transform the second type. If null, this case is skipped</param>
+    /// <param name="case3">Optional function to handle and transform the third type. Note: This parameter appears to be unused as union only contains T1 and T2</param>
+    /// <returns>
+    /// The transformed result if a matching non-null case function was found and executed;
+    /// otherwise returns default value of <typeparamref name="TResult"/>.
+    /// </returns>
     public static TResult? TryMatch<T1, T2, T3, TResult>(
         this Union<T1, T2> union,
         Func<T1?, TResult>? case1 = null,
@@ -234,13 +259,18 @@ public static class MatchExtensions
         };
     }
 
-    /// Tries to match the value stored in the union to the specified type.
-    /// If the value matches the type specified by the generic parameter, it outputs the value; otherwise, outputs the default value of the type.
-    /// <param name="union">The union instance on which to perform the match operation.</param>
-    /// <param name="value">The output parameter that contains the matched value if the union's value matches the specified type, or the default value of the type otherwise.</param>
-    /// <typeparam name="T">The type to which the union's value is compared.</typeparam>
-    /// <returns>True if the union's value matches the specified type; otherwise, false.</returns>
-    public static void TryMatch<T1, T2, T3>(
+    /// <summary>
+    /// Attempts to match a union and execute corresponding actions for the matched type.
+    /// This is a "soft" matching operation where handlers are optional, allowing selective handling of cases.
+    /// </summary>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="T3">Type of third possible value (Note: This appears to be unused as union only contains T1 and T2)</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional action to execute if the union contains a value of type T1. If null, this case is skipped</param>
+    /// <param name="case2">Optional action to execute if the union contains a value of type T2. If null, this case is skipped</param>
+    /// <param name="case3">Optional action to execute for T3 type (Note: This parameter appears to be unused as union only contains T1 and T2)</param>
+       public static void TryMatch<T1, T2, T3>(
         this Union<T1, T2> union,
         Action<T1?>? case1 = null,
         Action<T2?>? case2 = null,
@@ -260,7 +290,6 @@ public static class MatchExtensions
         }
     }
 
-// Union<T1,T2,T3,T4>
     /// Matches a union of four possible types and executes one of the provided functions based on the type of the contained value.
     /// <typeparam name="T1">The type of the first possible value in the union.</typeparam>
     /// <typeparam name="T2">The type of the second possible value in the union.</typeparam>
@@ -272,7 +301,7 @@ public static class MatchExtensions
     /// <param name="case2">A function to handle the case where the value is of type <typeparamref name="T2"/>.</param>
     /// <param name="case3">A function to handle the case where the value is of type <typeparamref name="T3"/>.</param>
     /// <param name="case4">A function to handle the case where the value is of type <typeparamref name="T4"/>.</param>
-    /// <returns>The result of invoking the matching function for the type of the contained value in the union. Throws an exception if the union is uninitialized.
+    /// <returns>The result of invoking the matching function for the type of the contained value in the union. Throws an exception if the union is uninitialized.</returns>
     public static TResult Match<T1, T2, T3, T4, TResult>(
         this Union<T1, T2, T3, T4> union,
         Func<T1?, TResult> case1,
@@ -321,11 +350,29 @@ public static class MatchExtensions
         }
     }
 
-    /// Attempts to match the value stored in the union with the specified type and retrieves it if successful.
-    /// <typeparam name="T">The type to attempt to match.</typeparam>
-    /// <param name="union">The union instance to match against.</param>
-    /// <param name="value">When this method returns, contains the matched value if the match is successful; otherwise, the default value of the type.</param>
-    /// <returns>True if the union contains a value of the specified type; otherwise, false.</returns>
+    /// <summary>
+    /// Attempts to match the union's value against provided case functions and transforms it to a result.
+    /// This is a "soft" matching operation where unmatched cases are allowed (can be null).
+    /// </summary>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="T3">Type of third possible value in the union</typeparam>
+    /// <typeparam name="T4">Type of fourth possible value in the union</typeparam>
+    /// <typeparam name="TResult">The type of the result after transformation</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional function to handle and transform the first type. If null, this case is skipped</param>
+    /// <param name="case2">Optional function to handle and transform the second type. If null, this case is skipped</param>
+    /// <param name="case3">Optional function to handle and transform the third type. If null, this case is skipped</param>
+    /// <param name="case4">Optional function to handle and transform the fourth type. If null, this case is skipped</param>
+    /// <returns>
+    /// The transformed result if a matching non-null case function was found and executed;
+    /// otherwise returns default value of <typeparamref name="TResult"/>.
+    /// </returns>
+    /// <remarks>
+    /// Unlike the regular Match method, TryMatch allows for partial matching where not all cases need to be handled.
+    /// If the union's value corresponds to a case where the handler is null, the method returns default(TResult).
+    /// This is useful when you only care about specific cases and want to ignore others.
+    /// </remarks>
     public static TResult? TryMatch<T1, T2, T3, T4, TResult>(
         this Union<T1, T2, T3, T4> union,
         Func<T1?, TResult>? case1 = null,
@@ -377,7 +424,6 @@ public static class MatchExtensions
         }
     }
 
-// Union<T1,T2,T3,T4,T5>
     /// Matches the value contained in a union of five possible types to one of the provided cases
     /// and returns a result based on the matched case.
     /// <typeparam name="T1">The type of the first possible case.</typeparam>
@@ -392,9 +438,9 @@ public static class MatchExtensions
     /// <param name="case3">The function to handle the third type of the union.</param>
     /// <param name="case4">The function to handle the fourth type of the union.</param>
     /// <param name="case5">The function to handle the fifth type of the union.</param>
-    /// <returns>The result of the function corresponding to the matched case.</exception>
+    /// <returns>The result of the function corresponding to the matched case.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the union is not initialized.</exception>
-public static TResult Match<T1, T2, T3, T4, T5, TResult>(
+    public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         this Union<T1, T2, T3, T4, T5> union,
         Func<T1?, TResult> case1,
         Func<T2?, TResult> case2,
@@ -447,14 +493,34 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         }
     }
 
-    /// Attempts to match the current union value with the specified type.
-    /// <typeparam name="T">The type to match against the current union value.</typeparam>
-    /// <param name="union">The union object to attempt matching on.</param>
-    /// <param name="value">
-    /// The output parameter that will hold the matched value if the match is successful; otherwise, it will be null.
+
+    /// <summary>
+    /// Attempts to match the value of the union instance to one of the possible case types, and executes the corresponding function, if provided.
+    /// </summary>
+    /// <typeparam name="T1">The first possible type for the union's value.</typeparam>
+    /// <typeparam name="T2">The second possible type for the union's value.</typeparam>
+    /// <typeparam name="T3">The third possible type for the union's value.</typeparam>
+    /// <typeparam name="T4">The fourth possible type for the union's value.</typeparam>
+    /// <typeparam name="T5">The fifth possible type for the union's value.</typeparam>
+    /// <typeparam name="TResult">The result type of the function to be returned.</typeparam>
+    /// <param name="union">The union instance containing the value to attempt matching.</param>
+    /// <param name="case1">
+    /// An optional function to execute if the union's value is of type <typeparamref name="T1"/>.
+    /// </param>
+    /// <param name="case2">
+    /// An optional function to execute if the union's value is of type <typeparamref name="T2"/>.
+    /// </param>
+    /// <param name="case3">
+    /// An optional function to execute if the union's value is of type <typeparamref name="T3"/>.
+    /// </param>
+    /// <param name="case4">
+    /// An optional function to execute if the union's value is of type <typeparamref name="T4"/>.
+    /// </param>
+    /// <param name="case5">
+    /// An optional function to execute if the union's value is of type <typeparamref name="T5"/>.
     /// </param>
     /// <returns>
-    /// Returns true if the union value matches the specified type; otherwise, returns false.
+    /// The result produced by the executed function if a match is found. If no match is found or no function is provided for the matching type, returns the default value of <typeparamref name="TResult"/>.
     /// </returns>
     public static TResult? TryMatch<T1, T2, T3, T4, T5, TResult>(
         this Union<T1, T2, T3, T4, T5> union,
@@ -475,23 +541,37 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         };
     }
 
-    /// Provides extension methods for matching and handling values in union types.
-    /// Allows processing based on the type contained within the union.
-    /// Attempts to match the current value of the union with the specified type.
-    /// If the value within the union matches the specified type, the output parameter is assigned the value.
-    /// The method returns true to indicate the match was successful. Otherwise, the value will be set to the default
-    /// value of the type, and the method will return false.
-    /// Type Parameters:
-    /// T:
-    /// The type to match against the current value of the union.
-    /// Parameters:
-    /// union:
-    /// The union instance on which the method is called.
-    /// value:
-    /// An out parameter that will receive the value if the union matches the specified type,
-    /// or default if the match fails.
-    /// Returns:
-    /// A boolean indicating whether the value within the union matches the specified type.
+
+    /// <summary>
+    /// Attempts to match the union's value to one of five possible types and invokes the corresponding action
+    /// if the match is successful.
+    /// </summary>
+    /// <typeparam name="T1">The first possible type.</typeparam>
+    /// <typeparam name="T2">The second possible type.</typeparam>
+    /// <typeparam name="T3">The third possible type.</typeparam>
+    /// <typeparam name="T4">The fourth possible type.</typeparam>
+    /// <typeparam name="T5">The fifth possible type.</typeparam>
+    /// <param name="union">The union instance to be matched.</param>
+    /// <param name="case1">
+    /// The action to invoke if the union's value matches the first type <typeparamref name="T1"/>.
+    /// This parameter is optional and can be null.
+    /// </param>
+    /// <param name="case2">
+    /// The action to invoke if the union's value matches the second type <typeparamref name="T2"/>.
+    /// This parameter is optional and can be null.
+    /// </param>
+    /// <param name="case3">
+    /// The action to invoke if the union's value matches the third type <typeparamref name="T3"/>.
+    /// This parameter is optional and can be null.
+    /// </param>
+    /// <param name="case4">
+    /// The action to invoke if the union's value matches the fourth type <typeparamref name="T4"/>.
+    /// This parameter is optional and can be null.
+    /// </param>
+    /// <param name="case5">
+    /// The action to invoke if the union's value matches the fifth type <typeparamref name="T5"/>.
+    /// This parameter is optional and can be null.
+    /// </param>
     public static void TryMatch<T1, T2, T3, T4, T5>(
         this Union<T1, T2, T3, T4, T5> union,
         Action<T1?>? case1 = null,
@@ -520,18 +600,27 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         }
     }
 
-// Union<T1,T2,T3,T4,T5,T6>
-    /// Matches the value stored in a `Union<T1, T2, T3, T4, T5, T6>` instance against the provided cases.
-    /// Executes the corresponding function based on the type of the value held in the union.
-    /// If no match is found, throws an exception.
-    /// <param name="union">The union instance containing a value of one of the specified types.</param>
-    /// <param name="case1">A function to execute if the value in the union is of type `T1`.</param>
-    /// <param name="case2">A function to execute if the value in the union is of type `T2`.</param>
-    /// <param name="case3">A function to execute if the value in the union is of type `T3`.</param>
-    /// <param name="case4">A function to execute if the value in the union is of type `T4`.</param>
-    /// <param name="case5">A function to execute if the value in the union is of type `T5`.</param>
-    /// <param name="case6">A function to execute if the value in the union is of type `T6`.</param>
-    /// <returns>The result of executing the function corresponding to the matched type.</returns>
+
+    /// <summary>
+    /// Matches the value contained in a six-case union to one of the specified cases
+    /// and returns the result from the corresponding case function.
+    /// </summary>
+    /// <typeparam name="T1">The type of the first possible value in the union.</typeparam>
+    /// <typeparam name="T2">The type of the second possible value in the union.</typeparam>
+    /// <typeparam name="T3">The type of the third possible value in the union.</typeparam>
+    /// <typeparam name="T4">The type of the fourth possible value in the union.</typeparam>
+    /// <typeparam name="T5">The type of the fifth possible value in the union.</typeparam>
+    /// <typeparam name="T6">The type of the sixth possible value in the union.</typeparam>
+    /// <typeparam name="TResult">The type of the result returned by the case functions.</typeparam>
+    /// <param name="union">The union instance to be matched against one of the cases.</param>
+    /// <param name="case1">The function to be invoked if the value matches the first type <typeparamref name="T1"/>.</param>
+    /// <param name="case2">The function to be invoked if the value matches the second type <typeparamref name="T2"/>.</param>
+    /// <param name="case3">The function to be invoked if the value matches the third type <typeparamref name="T3"/>.</param>
+    /// <param name="case4">The function to be invoked if the value matches the fourth type <typeparamref name="T4"/>.</param>
+    /// <param name="case5">The function to be invoked if the value matches the fifth type <typeparamref name="T5"/>.</param>
+    /// <param name="case6">The function to be invoked if the value matches the sixth type <typeparamref name="T6"/>.</param>
+    /// <returns>The result of invoking the function for the matched type.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the union is not properly initialized.</exception>
     public static TResult Match<T1, T2, T3, T4, T5, T6, TResult>(
         this Union<T1, T2, T3, T4, T5, T6> union,
         Func<T1?, TResult> case1,
@@ -590,18 +679,28 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         }
     }
 
-    /// Attempts to match the underlying value of the union with the specified type.
-    /// If the match is successful, the value is assigned to the specified output parameter.
-    /// <param name="union">
-    /// The union instance to attempt the match on.
-    /// </param>
-    /// <param name="value">
-    /// When this method returns, contains the matched value of the specified type
-    /// if the match was successful; otherwise, the default value for the type T.
-    /// This parameter is passed uninitialized.
-    /// </param>
+
+    /// <summary>
+    /// Attempts to match a union containing six possible types against provided case functions and transforms it to a result.
+    /// This is a "soft" matching operation where case handlers are optional.
+    /// </summary>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="T3">Type of third possible value in the union</typeparam>
+    /// <typeparam name="T4">Type of fourth possible value in the union</typeparam>
+    /// <typeparam name="T5">Type of fifth possible value in the union</typeparam>
+    /// <typeparam name="T6">Type of sixth possible value in the union</typeparam>
+    /// <typeparam name="TResult">The type of the result after transformation</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional function to handle and transform the first type. If null, this case is skipped</param>
+    /// <param name="case2">Optional function to handle and transform the second type. If null, this case is skipped</param>
+    /// <param name="case3">Optional function to handle and transform the third type. If null, this case is skipped</param>
+    /// <param name="case4">Optional function to handle and transform the fourth type. If null, this case is skipped</param>
+    /// <param name="case5">Optional function to handle and transform the fifth type. If null, this case is skipped</param>
+    /// <param name="case6">Optional function to handle and transform the sixth type. If null, this case is skipped</param>
     /// <returns>
-    /// True if the match was successful and the value was set; otherwise, false.
+    /// The transformed result if a matching non-null case function was found and executed;
+    /// otherwise returns default value of <typeparamref name="TResult"/>.
     /// </returns>
     public static TResult? TryMatch<T1, T2, T3, T4, T5, T6, TResult>(
         this Union<T1, T2, T3, T4, T5, T6> union,
@@ -624,20 +723,24 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         };
     }
 
-    /// Attempts to match the current union value with the specified type `T`.
-    /// If successful, assigns the value to the out parameter and returns true; otherwise, returns false.
-    /// <param name="union">
-    /// The union instance on which the method is invoked.
-    /// </param>
-    /// <param name="value">
-    /// The output parameter to which the matched value of type `T` is assigned if the match is successful. If no match is found, it is assigned the default value.
-    /// </param>
-    /// <typeparam name="T">
-    /// The type to match against the current value of the union.
-    /// </typeparam>
-    /// <returns>
-    /// Returns true if the union's current value matches the type `T`; otherwise, returns false.
-    /// </returns>
+
+    /// <summary>
+    /// Attempts to match the value contained within a union instance against a specified type
+    /// and invokes the corresponding action for the matched type if provided.
+    /// </summary>
+    /// <typeparam name="T1">The first type that the union instance may contain.</typeparam>
+    /// <typeparam name="T2">The second type that the union instance may contain.</typeparam>
+    /// <typeparam name="T3">The third type that the union instance may contain.</typeparam>
+    /// <typeparam name="T4">The fourth type that the union instance may contain.</typeparam>
+    /// <typeparam name="T5">The fifth type that the union instance may contain.</typeparam>
+    /// <typeparam name="T6">The sixth type that the union instance may contain.</typeparam>
+    /// <param name="union">The union instance whose value is to be matched and processed.</param>
+    /// <param name="case1">An optional action to invoke if the union value matches the first type <typeparamref name="T1"/>.</param>
+    /// <param name="case2">An optional action to invoke if the union value matches the second type <typeparamref name="T2"/>.</param>
+    /// <param name="case3">An optional action to invoke if the union value matches the third type <typeparamref name="T3"/>.</param>
+    /// <param name="case4">An optional action to invoke if the union value matches the fourth type <typeparamref name="T4"/>.</param>
+    /// <param name="case5">An optional action to invoke if the union value matches the fifth type <typeparamref name="T5"/>.</param>
+    /// <param name="case6">An optional action to invoke if the union value matches the sixth type <typeparamref name="T6"/>.</param>
     public static void TryMatch<T1, T2, T3, T4, T5, T6>(
         this Union<T1, T2, T3, T4, T5, T6> union,
         Action<T1?>? case1 = null,
@@ -670,7 +773,6 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         }
     }
 
-// Union<T1,T2,T3,T4,T5,T6,T7>
     /// Matches a union with seven potential types to a result by executing the appropriate function
     /// for the contained value based on its type.
     /// <typeparam name="T1">The type of the first possible value.</typeparam>
@@ -689,7 +791,7 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
     /// <param name="case5">The function to execute if the union contains a value of type <typeparamref name="T5"/>.</param>
     /// <param name="case6">The function to execute if the union contains a value of type <typeparamref name="T6"/>.</param>
     /// <param name="case7">The function to execute if the union contains a value of type <typeparamref name="T7"/>.</param>
-    /// <returns>The result of the function corresponding to the type of the union's contained value.</exception>
+    /// <returns>The result of the function corresponding to the type of the union's contained value.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the union is not initialized.</exception>
     public static TResult Match<T1, T2, T3, T4, T5, T6, T7, TResult>(
         this Union<T1, T2, T3, T4, T5, T6, T7> union,
@@ -730,7 +832,7 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
     /// <param name="case4">The action to be executed for the fourth type in the union.</param>
     /// <param name="case5">The action to be executed for the fifth type in the union.</param>
     /// <param name="case6">The action to be executed for the sixth type in the union.</param>
-    /// <param name="case7">The action to be executed for the seventh type in the union.</exception>
+    /// <param name="case7">The action to be executed for the seventh type in the union.</param>
     public static void Match<T1, T2, T3, T4, T5, T6, T7>(
         this Union<T1, T2, T3, T4, T5, T6, T7> union,
         Action<T1?> case1,
@@ -754,16 +856,29 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         }
     }
 
-    /// Matches the current union value against the specified type and retrieves the value if the type matches.
-    /// Returns a boolean indicating whether the match was successful or not.
-    /// <typeparam name="T">The type to match against the current union value.</typeparam>
-    /// <param name="union">The union instance to perform the match on.</param>
-    /// <param name="value">
-    /// The output parameter that holds the value of type <typeparamref name="T"/>
-    /// if the match is successful; otherwise, it holds the default value of <typeparamref name="T"/>.
-    /// </param>
+    /// <summary>
+    /// Attempts to match a union containing seven possible types against provided case functions and transforms it to a result.
+    /// This is a "soft" matching operation where case handlers are optional.
+    /// </summary>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="T3">Type of third possible value in the union</typeparam>
+    /// <typeparam name="T4">Type of fourth possible value in the union</typeparam>
+    /// <typeparam name="T5">Type of fifth possible value in the union</typeparam>
+    /// <typeparam name="T6">Type of sixth possible value in the union</typeparam>
+    /// <typeparam name="T7">Type of seventh possible value in the union</typeparam>
+    /// <typeparam name="TResult">The type of the result after transformation</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional function to handle and transform the first type. If null, this case is skipped</param>
+    /// <param name="case2">Optional function to handle and transform the second type. If null, this case is skipped</param>
+    /// <param name="case3">Optional function to handle and transform the third type. If null, this case is skipped</param>
+    /// <param name="case4">Optional function to handle and transform the fourth type. If null, this case is skipped</param>
+    /// <param name="case5">Optional function to handle and transform the fifth type. If null, this case is skipped</param>
+    /// <param name="case6">Optional function to handle and transform the sixth type. If null, this case is skipped</param>
+    /// <param name="case7">Optional function to handle and transform the seventh type. If null, this case is skipped</param>
     /// <returns>
-    /// A boolean indicating whether the union successfully matched the specified type <typeparamref name="T"/>.
+    /// The transformed result if a matching non-null case function was found and executed;
+    /// otherwise returns default value of <typeparamref name="TResult"/>.
     /// </returns>
     public static TResult? TryMatch<T1, T2, T3, T4, T5, T6, T7, TResult>(
         this Union<T1, T2, T3, T4, T5, T6, T7> union,
@@ -788,11 +903,25 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         };
     }
 
-    /// Attempts to match the union's value to a specific type, and if successful, assigns it to the output parameter.
-    /// <typeparam name="T">The type to attempt to match the union's value with.</typeparam>
-    /// <param name="union">The union instance being evaluated.</param>
-    /// <param name="value">When the method returns, contains the value of the union cast to the specified type, if the match is successful; otherwise, it will contain the default value for type <typeparamref name="T"/>.</param>
-    /// <returns>true if the union's value matches the specified type; otherwise, false.
+    /// <summary>
+    /// Attempts to match the provided union instance to one of its contained types and execute an associated action
+    /// if the match is successful.
+    /// </summary>
+    /// <typeparam name="T1">The first possible type contained in the union.</typeparam>
+    /// <typeparam name="T2">The second possible type contained in the union.</typeparam>
+    /// <typeparam name="T3">The third possible type contained in the union.</typeparam>
+    /// <typeparam name="T4">The fourth possible type contained in the union.</typeparam>
+    /// <typeparam name="T5">The fifth possible type contained in the union.</typeparam>
+    /// <typeparam name="T6">The sixth possible type contained in the union.</typeparam>
+    /// <typeparam name="T7">The seventh possible type contained in the union.</typeparam>
+    /// <param name="union">The union instance containing a value of one of the specified types.</param>
+    /// <param name="case1">An optional action to be executed if the union contains a value of type <typeparamref name="T1"/>.</param>
+    /// <param name="case2">An optional action to be executed if the union contains a value of type <typeparamref name="T2"/>.</param>
+    /// <param name="case3">An optional action to be executed if the union contains a value of type <typeparamref name="T3"/>.</param>
+    /// <param name="case4">An optional action to be executed if the union contains a value of type <typeparamref name="T4"/>.</param>
+    /// <param name="case5">An optional action to be executed if the union contains a value of type <typeparamref name="T5"/>.</param>
+    /// <param name="case6">An optional action to be executed if the union contains a value of type <typeparamref name="T6"/>.</param>
+    /// <param name="case7">An optional action to be executed if the union contains a value of type <typeparamref name="T7"/>.</param>
     public static void TryMatch<T1, T2, T3, T4, T5, T6, T7>(
         this Union<T1, T2, T3, T4, T5, T6, T7> union,
         Action<T1?>? case1 = null,
@@ -829,7 +958,6 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
         }
     }
 
-// Union<T1,T2,T3,T4,T5,T6,T7,T8>
     /// <summary>
     /// Matches the current value of the union against the provided cases
     /// and returns the result of the matched case.
@@ -854,7 +982,7 @@ public static TResult Match<T1, T2, T3, T4, T5, TResult>(
     /// <param name="case8">The function to be invoked if the eighth type matches.</param>
     /// <returns>The result of the function associated with the matched case.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the union is not initialized.</exception>
-public static TResult Match<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
+    public static TResult Match<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
         this Union<T1, T2, T3, T4, T5, T6, T7, T8> union,
         Func<T1?, TResult> case1,
         Func<T2?, TResult> case2,
@@ -915,11 +1043,32 @@ public static TResult Match<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
         }
     }
 
-    /// Attempts to match the union value to the specified type and output the value if the match is successful.
-    /// <typeparam name="T">The type to match the union value against.</typeparam>
-    /// <param name="union">The union to attempt the match on.</param>
-    /// <param name="value">The output value if the match is successful. Otherwise, it will be set to the default value for the type.</param>
-    /// <returns>True if the union value matches the specified type; otherwise, false.</returns>
+    /// <summary>
+    /// Attempts to match a union containing eight possible types against provided case functions and transforms it to a result.
+    /// This is a "soft" matching operation where case handlers are optional.
+    /// </summary>
+    /// <typeparam name="T1">Type of first possible value in the union</typeparam>
+    /// <typeparam name="T2">Type of second possible value in the union</typeparam>
+    /// <typeparam name="T3">Type of third possible value in the union</typeparam>
+    /// <typeparam name="T4">Type of fourth possible value in the union</typeparam>
+    /// <typeparam name="T5">Type of fifth possible value in the union</typeparam>
+    /// <typeparam name="T6">Type of sixth possible value in the union</typeparam>
+    /// <typeparam name="T7">Type of seventh possible value in the union</typeparam>
+    /// <typeparam name="T8">Type of eighth possible value in the union</typeparam>
+    /// <typeparam name="TResult">The type of the result after transformation</typeparam>
+    /// <param name="union">The union instance to match against</param>
+    /// <param name="case1">Optional function to handle and transform the first type. If null, this case is skipped</param>
+    /// <param name="case2">Optional function to handle and transform the second type. If null, this case is skipped</param>
+    /// <param name="case3">Optional function to handle and transform the third type. If null, this case is skipped</param>
+    /// <param name="case4">Optional function to handle and transform the fourth type. If null, this case is skipped</param>
+    /// <param name="case5">Optional function to handle and transform the fifth type. If null, this case is skipped</param>
+    /// <param name="case6">Optional function to handle and transform the sixth type. If null, this case is skipped</param>
+    /// <param name="case7">Optional function to handle and transform the seventh type. If null, this case is skipped</param>
+    /// <param name="case8">Optional function to handle and transform the eighth type. If null, this case is skipped</param>
+    /// <returns>
+    /// The transformed result if a matching non-null case function was found and executed;
+    /// otherwise returns default value of <typeparamref name="TResult"/>.
+    /// </returns>
     public static TResult? TryMatch<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
         this Union<T1, T2, T3, T4, T5, T6, T7, T8> union,
         Func<T1?, TResult>? case1 = null,
@@ -945,21 +1094,28 @@ public static TResult Match<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
         };
     }
 
-    /// Attempts to match the type of the union instance with the specified type parameter T.
-    /// If the type matches, the value is assigned to the out parameter and the method returns true.
-    /// Otherwise, the out parameter is set to null and the method returns false.
+    /// <summary>
+    /// Attempts to match the union's contained value against one of its potential types and executes the corresponding action for each type if provided.
+    /// </summary>
+    /// <typeparam name="T1">The first possible type contained in the union.</typeparam>
+    /// <typeparam name="T2">The second possible type contained in the union.</typeparam>
+    /// <typeparam name="T3">The third possible type contained in the union.</typeparam>
+    /// <typeparam name="T4">The fourth possible type contained in the union.</typeparam>
+    /// <typeparam name="T5">The fifth possible type contained in the union.</typeparam>
+    /// <typeparam name="T6">The sixth possible type contained in the union.</typeparam>
+    /// <typeparam name="T7">The seventh possible type contained in the union.</typeparam>
+    /// <typeparam name="T8">The eighth possible type contained in the union.</typeparam>
     /// <param name="union">
-    /// The union instance on which the operation is performed.
+    /// The union instance containing a value that needs to be matched against one of the provided type cases.
     /// </param>
-    /// <param name="value">
-    /// The output variable that will hold the matched value if the type matches, or null if it does not match.
-    /// </param>
-    /// <typeparam name="T">
-    /// The type against which the union is being matched.
-    /// </typeparam>
-    /// <returns>
-    /// True if the union's value matches the specified type T; otherwise, false.
-    /// </returns>
+    /// <param name="case1">The action to execute if the contained value matches <typeparamref name="T1"/>.</param>
+    /// <param name="case2">The action to execute if the contained value matches <typeparamref name="T2"/>.</param>
+    /// <param name="case3">The action to execute if the contained value matches <typeparamref name="T3"/>.</param>
+    /// <param name="case4">The action to execute if the contained value matches <typeparamref name="T4"/>.</param>
+    /// <param name="case5">The action to execute if the contained value matches <typeparamref name="T5"/>.</param>
+    /// <param name="case6">The action to execute if the contained value matches <typeparamref name="T6"/>.</param>
+    /// <param name="case7">The action to execute if the contained value matches <typeparamref name="T7"/>.</param>
+    /// <param name="case8">The action to execute if the contained value matches <typeparamref name="T8"/>.</param>
     public static void TryMatch<T1, T2, T3, T4, T5, T6, T7, T8>(
         this Union<T1, T2, T3, T4, T5, T6, T7, T8> union,
         Action<T1?>? case1 = null,

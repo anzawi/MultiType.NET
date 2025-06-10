@@ -2,6 +2,7 @@ namespace MultiType.NET.Core.Serialization;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Extensions;
 
 /// <summary>
 /// A custom JSON converter for serializing and deserializing instances of the generic Union class that supports four possible types.

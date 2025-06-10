@@ -2,6 +2,7 @@ namespace MultiType.NET.Core.Serialization;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Extensions;
 
 /// <summary>
 /// A custom JSON converter for serializing and deserializing instances of the <see cref="Unions.Union{T1, T2, T3, T4, T5, T6, T7, T8}"/> type.

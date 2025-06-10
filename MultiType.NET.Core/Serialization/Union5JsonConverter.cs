@@ -2,6 +2,7 @@ namespace MultiType.NET.Core.Serialization;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Extensions;
 
 /// <summary>
 /// A JSON converter for serializing and deserializing union types with five possible values, represented by

@@ -1,5 +1,8 @@
 namespace MultiType.NET.Core.Unions;
 
+using Exceptions;
+using Helpers;
+
 /// <inheritdoc />
 public readonly struct Union<T1, T2, T3> : IUnion
 {
@@ -136,6 +139,110 @@ public readonly struct Union<T1, T2, T3> : IUnion
     {
         if (this.IsNull) return null;
         return this.As<T>();
+    }
+
+    public T1 GetT1(out Union<T2, T3>? remainder)
+    {
+        remainder = default;
+        try
+        {
+            Guards.ThrowIfNotInitialized(TypeIndex, typeof(T1));
+            Guards.ThrowIfNotOutOfRange(TypeIndex, 3);
+            Guards.ThrowIfNull(Value, typeof(T1), TypeIndex);
+            Guards.ThrowIfTypeMismatch<T1>(TypeIndex, 1, Value, out T1 typedValue);
+
+            return typedValue;
+        }
+        catch (Exception ex) when (ex is not InvalidUnionStateException)
+        {
+            throw new InvalidUnionStateException(
+                $"""
+                 Unexpected error getting value of type {typeof(T1).Name}
+                 TypeIndex: {TypeIndex}
+                 Value type: {Value?.GetType().Name ?? "null"}
+                 """,
+                ex);
+        }
+    }
+
+    public T2 GetT2(out Union<T1, T3>? remainder)
+    {
+        remainder = default;
+        try
+        {
+            Guards.ThrowIfNotInitialized(TypeIndex, typeof(T2));
+            Guards.ThrowIfNotOutOfRange(TypeIndex, 3);
+            Guards.ThrowIfNull(Value, typeof(T2), TypeIndex);
+            Guards.ThrowIfTypeMismatch<T2>(TypeIndex, 2, Value, out T2 typedValue);
+
+            return typedValue;
+        }
+        catch (Exception ex) when (ex is not InvalidUnionStateException)
+        {
+            throw new InvalidUnionStateException(
+                $"""
+                 Unexpected error getting value of type {typeof(T2).Name}
+                 TypeIndex: {TypeIndex}
+                 Value type: {Value?.GetType().Name ?? "null"}
+                 """,
+                ex);
+        }
+    }
+
+    public T3 GetT3(out Union<T1, T2>? remainder)
+    {
+        remainder = default;
+        try
+        {
+            Guards.ThrowIfNotInitialized(TypeIndex, typeof(T3));
+            Guards.ThrowIfNotOutOfRange(TypeIndex, 3);
+            Guards.ThrowIfNull(Value, typeof(T3), TypeIndex);
+            Guards.ThrowIfTypeMismatch<T3>(TypeIndex, 3, Value, out T3 typedValue);
+            
+            
+
+            return typedValue;
+        }
+        catch (Exception ex) when (ex is not InvalidUnionStateException)
+        {
+            throw new InvalidUnionStateException(
+                $"""
+                 Unexpected error getting value of type {typeof(T3).Name}
+                 TypeIndex: {TypeIndex}
+                 Value type: {Value?.GetType().Name ?? "null"}
+                 """,
+                ex);
+        }
+    }
+
+    public bool TryGetT1(out T1 value, out Union<T2, T3>? remainder)
+    {
+        value = default!;
+        remainder = default;
+        if (TypeIndex != 1 || Value is not T1 typedValue)
+            return false;
+        value = typedValue;
+        return true;
+    }
+
+    public bool TryGetT2(out T2 value, out Union<T1, T3>? remainder)
+    {
+        value = default!;
+        remainder = default;
+        if (TypeIndex != 2 || Value is not T2 typedValue)
+            return false;
+        value = typedValue;
+        return true;
+    }
+
+    public bool TryGetT3(out T3 value, out Union<T1, T2>? remainder)
+    {
+        value = default!;
+        remainder = default;
+        if (TypeIndex != 3 || Value is not T3 typedValue)
+            return false;
+        value = typedValue;
+        return true;
     }
 
 
