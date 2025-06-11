@@ -24,7 +24,7 @@ public interface IUnion
     /// Gets the runtime type of the value currently held by the union.
     /// If the union does not hold any value, the type returned is `typeof(void)`.
     Type Type { get; }
-
+    
     /// <summary>
     /// Determines whether the current union value is of the specified type.
     /// </summary>
