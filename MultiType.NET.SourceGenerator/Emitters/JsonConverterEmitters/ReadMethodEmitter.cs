@@ -18,11 +18,11 @@ internal static class ReadMethodEmitter
     private static void EmitClassDocs(StringBuilder sb, string typeParams)
     {
         sb.AppendLine($$"""
-                        // Reads and converts the JSON to a Union{{{typeParams}}} object.
+                        // Reads and converts the JSON to a Any{{{typeParams}}} object.
                         /// <param name="reader">The reader to read JSON data from.</param>
                         /// <param name="typeToConvert">The type of the object to convert to.</param>
                         /// <param name="options">Options to use during deserialization.</param>
-                        /// <returns>A Union{{{typeParams}}} object converted from the JSON.</returns>
+                        /// <returns>A Any{{{typeParams}}} object converted from the JSON.</returns>
                         /// <exception cref="JsonException">Thrown if the JSON is invalid or necessary properties are missing.</exception>
                         """);
     }
@@ -30,7 +30,7 @@ internal static class ReadMethodEmitter
     private static void EmitMethod(StringBuilder sb, int arity, string typeParams)
     {
         sb.AppendLine($$"""
-                        public override Union<{{typeParams}}> Read(ref Utf8JsonReader reader, Type typeToConvert,
+                        public override Any<{{typeParams}}> Read(ref Utf8JsonReader reader, Type typeToConvert,
                             JsonSerializerOptions options)
                         {
                             if (reader.TokenType != JsonTokenType.StartObject)

@@ -1,6 +1,6 @@
 using System;
 using MultiType.NET.SourceGenerator;
 
-Console.WriteLine("Generating Union types...");
-UnionEmitter.EmitUnionTypes();
+Console.WriteLine("Generating Any types...");
+AnyEmitter.EmitAnyTypes();
 Console.WriteLine("Done!");

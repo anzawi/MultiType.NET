@@ -1,0 +1,36 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Target Name="TouchGeneratorOnBuild" BeforeTargets="BeforeBuild">
+        <!-- Update timestamp of the main generator source file to force rebuild -->
+        <Touch Files="AnyGenerator.cs" />
+        <Message Text="Touching AnyGenerator.cs..." Importance="high" />
+    </Target>
+
+    <Target Name="PrintEmitCompilerGeneratedFiles" AfterTargets="Build">
+        <Message Text="EmitCompilerGeneratedFiles: $(EmitCompilerGeneratedFiles)" Importance="high" />
+    </Target>
+    <Target Name="CheckSdkVersion" BeforeTargets="Build">
+        <Error Condition="$(NETCoreSdkVersion.StartsWith('8.'))"
+               Text="
+❌ MultiType.NET Generator Error:
+This project is being built with .NET SDK 8.x.x — which has a known Roslyn bug preventing generated files from being written to disk.
+
+🔧 Targeting net8.0 is fine, but compiling with SDK 8.x is NOT.
+
+🐞 Reference:
+Issue #70947 – 'Can’t emit source generated code files'
+https://github.com/dotnet/roslyn/issues/70947
+
+✅ To fix this, build using any of the following SDKs:
+- .NET SDK 9.x or higher
+- .NET SDK 6.x or 7.x
+
+💡 Tip: Use a global.json to pin a compatible SDK version:
+{
+  &quot;sdk&quot;: {
+    &quot;version&quot;: &quot;9.0.0&quot;,
+    &quot;rollForward&quot;: &quot;latestMinor&quot;
+}
+        " />
+    </Target>
+</Project>

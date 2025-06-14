@@ -18,12 +18,12 @@ internal static class WriteMethodEmitter
     private static void EmitClassDocs(StringBuilder sb, string typeParams)
     {
         sb.AppendLine($$"""
-                        /// Writes the JSON representation of the specified Union{{{typeParams}}} object.
+                        /// Writes the JSON representation of the specified Any{{{typeParams}}} object.
                         /// <param name="writer">
                         /// The Utf8JsonWriter to write the JSON data.
                         /// </param>
                         /// <param name="value">
-                        /// The Union{{{typeParams}}} object to write.
+                        /// The Any{{{typeParams}}} object to write.
                         /// </param>
                         /// <param name="options">
                         /// The JsonSerializerOptions to use for serialization.
@@ -34,7 +34,7 @@ internal static class WriteMethodEmitter
     private static void EmitMethod(StringBuilder sb, int arity, string typeParams)
     {
         sb.AppendLine($$"""
-                        public override void Write(Utf8JsonWriter writer, Union<{{typeParams}}> value,
+                        public override void Write(Utf8JsonWriter writer, Any<{{typeParams}}> value,
                             JsonSerializerOptions options)
                         {
                             writer.WriteStartObject();

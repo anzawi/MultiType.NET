@@ -5,25 +5,56 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <OutputItemType>Analyzer</OutputItemType>
         <EnableDefaultItems>false</EnableDefaultItems>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+
+        <OutputItemType>Analyzer</OutputItemType>
+        <IncludeBuildOutput>false</IncludeBuildOutput> <!-- avoids lib folder -->
+        <PackageId>MultiType.NET.Generators</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Mohammad Anzawi</Authors>
+        <Description>A .NET source generator for Any types</Description>
+        <IsPackable>true</IsPackable>
+        <PackageTags>Roslyn;Analyzer;SourceGenerator</PackageTags>
+        
+        <NoWarn>NU5128</NoWarn>
+        <IncludeAnalyzerReleaseTrackingFiles>true</IncludeAnalyzerReleaseTrackingFiles>
+
+        <IsRoslynAnalyzer>true</IsRoslynAnalyzer>
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- ✔️ Compatible with Roslyn 4.x -->
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-        <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+        <Compile Include="AnyGenerator.cs"/>
+        <Compile Include="Constants\Consts.cs"/>
+        <Compile Include="Helpers\CodeFormatter.cs"/>
+        <Compile Include="Helpers\Functions.cs"/>
+        <Compile Include="Helpers\Notifications.cs"/>
+        <Compile Include="ObsoleteAttributeSuppressor.cs" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Include="GenerateUnionAttribute.cs" />
-      <Compile Include="UnionGenerator.cs" />
-      <Compile Include="UnionSyntaxReceiver.cs" />
+        <Content Include="AnalyzerReleases\Unshipped.md"/>
+        <Content Include="ForceGeneratorBuild.targets"/>
     </ItemGroup>
+    <ItemGroup>
+        <!-- Include release tracking files -->
+        <AdditionalFiles Include="AnalyzerReleases\Unshipped.md" />
+        <AdditionalFiles Include="AnalyzerReleases\Shipped.md" Condition="Exists('AnalyzerReleases\Shipped.md')" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- ✔️ Compatible with Roslyn 4.x -->
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="all"/>
+
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all"/>
+        <PackageReference Include="System.Collections.Immutable" Version="9.0.0" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <!-- This ensures the library will be packaged as a source generator when we use `dotnet pack` -->
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    </ItemGroup>
+
+    <Import Project="ForceGeneratorBuild.targets"/>
 </Project>

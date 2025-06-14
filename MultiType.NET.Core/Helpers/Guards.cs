@@ -8,9 +8,9 @@ internal static class Guards
     internal static void ThrowIfNotInitialized(byte typeIndex, Type valueType)
     {
         if (typeIndex == 0)
-            throw new InvalidUnionStateException(
+            throw new InvalidAnyStateException(
                 $"""
-                 Union is in an uninitialized state
+                 Any is in an uninitialized state
                  Expected: Value of type {valueType.Name}
                  Actual: Uninitialized
                  """);
@@ -19,7 +19,7 @@ internal static class Guards
     internal static void ThrowIfNotOutOfRange(byte typeIndex, int maximum)
     {
         if (typeIndex > maximum)
-            throw new InvalidUnionStateException(
+            throw new InvalidAnyStateException(
                 $"""
                  Invalid type index
                  Maximum allowed: 3
@@ -30,9 +30,9 @@ internal static class Guards
     internal static void ThrowIfNull(object? value, Type type, byte typeIndex)
     {
         if (value is null)
-            throw new InvalidUnionStateException(
+            throw new InvalidAnyStateException(
                 $"""
-                 Union value is null
+                 Any value is null
                  Expected type: {type.Name}
                  TypeIndex: {typeIndex}
                  """);
@@ -43,9 +43,9 @@ internal static class Guards
         if (typeIndex != expectedTypeIndex || value is not TExpected typedValue)
         {
             result = default!;
-            throw new InvalidUnionStateException(
+            throw new InvalidAnyStateException(
                 $"""
-                 Type mismatch in union
+                 Type mismatch in Any
                  Expected: {typeof(TExpected).Name}
                  Actual: {value?.GetType().Name}
                  TypeIndex: {typeIndex}

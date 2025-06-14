@@ -4,8 +4,20 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <!-- Persist the source generator (and other) files to disk -->
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <!-- 👇 The "base" path for the source generators -->
+        <GeneratedFolder>Generated</GeneratedFolder>
+        <!-- 👇 Write the output for each target framework to a different sub-folder -->
+        <CompilerGeneratedFilesOutputPath>$(GeneratedFolder)/$(TargetFramework)</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Unions/Generated/Union*.g.cs" />
+        <CompilerVisibleProperty Include="EmitCompilerGeneratedFiles"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="$(GeneratedFolder)/**/*.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MultiType.NET.Generators" Version="1.0.0" PrivateAssets="all"/>
     </ItemGroup>
 </Project>
