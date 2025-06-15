@@ -11,7 +11,7 @@ public static class Functions
     public static int CountTypesInNamespace(Compilation compilation, string @namespace)
     {
         var parts = @namespace.Split('.');
-        INamespaceSymbol? current = compilation.GlobalNamespace;
+        var current = compilation.GlobalNamespace;
 
         foreach (var part in parts)
         {
