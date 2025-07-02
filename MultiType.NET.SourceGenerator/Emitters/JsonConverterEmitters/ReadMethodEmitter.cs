@@ -30,7 +30,7 @@ internal static class ReadMethodEmitter
     private static void EmitMethod(StringBuilder sb, int arity, string typeParams)
     {
         sb.AppendLine($$"""
-                        public override Any<{{typeParams}}> Read(ref Utf8JsonReader reader, Type typeToConvert,
+                        public override global::MultiType.NET.Core.Anys.Generated.Any<{{typeParams}}> Read(ref Utf8JsonReader reader, Type typeToConvert,
                             JsonSerializerOptions options)
                         {
                             if (reader.TokenType != JsonTokenType.StartObject)

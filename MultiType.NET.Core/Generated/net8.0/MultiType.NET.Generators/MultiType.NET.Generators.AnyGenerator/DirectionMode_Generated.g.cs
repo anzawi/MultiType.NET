@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
-#pragma warning disable CS0618
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
+
+[JsonConverter(typeof(DirectionModeJsonConverter))]
 public readonly partial struct DirectionMode : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto> _inner;
     public DirectionMode(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.DirectionMode result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.DirectionMode(inner);
+        return success;
+    }
+
     public static implicit operator DirectionMode(MultiType.NET.Core.Anys.Types.DirectionMode.LTR value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>.From(value));
     public static implicit operator DirectionMode(MultiType.NET.Core.Anys.Types.DirectionMode.RTL value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>.From(value));
     public static implicit operator DirectionMode(MultiType.NET.Core.Anys.Types.DirectionMode.Auto value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>.From(value));
@@ -61,5 +72,22 @@ public readonly partial struct DirectionMode : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>.TryFrom(value, out var inner);
         result = new DirectionMode(inner);
         return success;
+    }
+}
+
+public sealed class DirectionModeJsonConverter : JsonConverter<DirectionMode>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override DirectionMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.DirectionMode.LTR, global::MultiType.NET.Core.Anys.Types.DirectionMode.RTL, global::MultiType.NET.Core.Anys.Types.DirectionMode.Auto>>(ref reader, options);
+        return new DirectionMode(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, DirectionMode value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

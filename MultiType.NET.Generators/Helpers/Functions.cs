@@ -56,8 +56,13 @@ public static class Functions
         var emitGeneratedFiles = context.AnalyzerConfigOptionsProvider
             .Select((provider, _) =>
             {
-                provider.GlobalOptions.TryGetValue("build_property.EmitCompilerGeneratedFiles", out var value);
-                return string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
+                provider.GlobalOptions.TryGetValue("build_property.EmitCompilerGeneratedFiles", out var emitCompiler);
+                provider.GlobalOptions.TryGetValue("build_property.GeneratedFolder", out var generatedFolder);
+                provider.GlobalOptions.TryGetValue("build_property.CompilerGeneratedFilesOutputPath", out var output);
+                var emitCompilerEnabled = string.Equals(emitCompiler, "true", StringComparison.OrdinalIgnoreCase);
+                var emitGeneratedFilesEnabled = !string.IsNullOrEmpty(generatedFolder) && !string.IsNullOrEmpty(output);
+                
+                return emitCompilerEnabled && emitGeneratedFilesEnabled;
             });
         return emitGeneratedFiles;
     }

@@ -30,7 +30,6 @@
         <Compile Include="Helpers\CodeFormatter.cs"/>
         <Compile Include="Helpers\Functions.cs"/>
         <Compile Include="Helpers\Notifications.cs"/>
-        <Compile Include="ObsoleteAttributeSuppressor.cs" />
     </ItemGroup>
 
     <ItemGroup>

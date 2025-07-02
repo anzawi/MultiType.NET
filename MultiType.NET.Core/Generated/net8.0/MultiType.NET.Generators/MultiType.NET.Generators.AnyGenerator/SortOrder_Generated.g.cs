@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(SortOrderJsonConverter))]
 public readonly partial struct SortOrder : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None> _inner;
     public SortOrder(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.SortOrder result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.SortOrder(inner);
+        return success;
+    }
+
     public static implicit operator SortOrder(MultiType.NET.Core.Anys.Types.SortOrder.Ascending value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>.From(value));
     public static implicit operator SortOrder(MultiType.NET.Core.Anys.Types.SortOrder.Descending value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>.From(value));
     public static implicit operator SortOrder(MultiType.NET.Core.Anys.Types.SortOrder.None value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>.From(value));
@@ -61,5 +72,22 @@ public readonly partial struct SortOrder : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>.TryFrom(value, out var inner);
         result = new SortOrder(inner);
         return success;
+    }
+}
+
+public sealed class SortOrderJsonConverter : JsonConverter<SortOrder>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override SortOrder Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SortOrder.Ascending, global::MultiType.NET.Core.Anys.Types.SortOrder.Descending, global::MultiType.NET.Core.Anys.Types.SortOrder.None>>(ref reader, options);
+        return new SortOrder(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, SortOrder value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

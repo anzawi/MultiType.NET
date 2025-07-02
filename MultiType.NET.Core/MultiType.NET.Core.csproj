@@ -4,20 +4,50 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-       <!-- &lt;!&ndash; Persist the source generator (and other) files to disk &ndash;&gt;
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-        &lt;!&ndash; 👇 The "base" path for the source generators &ndash;&gt;
-        <GeneratedFolder>Generated</GeneratedFolder>
-        &lt;!&ndash; 👇 Write the output for each target framework to a different sub-folder &ndash;&gt;
-        <CompilerGeneratedFilesOutputPath>$(GeneratedFolder)/$(TargetFramework)</CompilerGeneratedFilesOutputPath>-->
+        <!-- ✅ NuGet Package Metadata -->
+        <PackageId>MultiType.NET.Core</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Mohammad</Authors>
+        <Company>YourCompanyOrHandle</Company>
+        <Description>MultiType.NET is a lightweight union-type system for C# with source generation support.</Description>
+        <PackageTags>union-type;source-generator;C#;dotnet;Roslyn</PackageTags>
+        <RepositoryUrl>https://github.com/your/repo</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+        <!-- ✅ Include source and symbols -->
+        <IncludeSymbols>true</IncludeSymbols>
+        <IncludeSource>true</IncludeSource>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+        <!-- ✅ Optional: mark as source generator package -->
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
-    <!--<ItemGroup>
-        <CompilerVisibleProperty Include="EmitCompilerGeneratedFiles"/>
-    </ItemGroup>-->
-    <!--<ItemGroup>
-        <Compile Remove="$(GeneratedFolder)/**/*.cs"/>
-    </ItemGroup>-->
-    <!--<ItemGroup>
-        <PackageReference Include="MultiType.NET.Generators" Version="1.0.0" PrivateAssets="all"/>
-    </ItemGroup>-->
 </Project>
+
+<!--
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <GeneratedFolder>Generated</GeneratedFolder>
+        <CompilerGeneratedFilesOutputPath>$(GeneratedFolder)/$(TargetFramework)</CompilerGeneratedFilesOutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <CompilerVisibleProperty Include="EmitCompilerGeneratedFiles"/>
+        <CompilerVisibleProperty Include="GeneratedFolder"/>
+        <CompilerVisibleProperty Include="CompilerGeneratedFilesOutputPath"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="$(GeneratedFolder)/**/*.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MultiType.NET.Generators" Version="1.0.0" PrivateAssets="all"/>
+    </ItemGroup>
+</Project>
+
+-->

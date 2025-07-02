@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(PowerStateJsonConverter))]
 public readonly partial struct PowerState : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto> _inner;
     public PowerState(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.PowerState result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.PowerState(inner);
+        return success;
+    }
+
     public static implicit operator PowerState(MultiType.NET.Core.Anys.Types.PowerState.On value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>.From(value));
     public static implicit operator PowerState(MultiType.NET.Core.Anys.Types.PowerState.Off value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>.From(value));
     public static implicit operator PowerState(MultiType.NET.Core.Anys.Types.PowerState.Auto value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>.From(value));
@@ -61,5 +72,22 @@ public readonly partial struct PowerState : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>.TryFrom(value, out var inner);
         result = new PowerState(inner);
         return success;
+    }
+}
+
+public sealed class PowerStateJsonConverter : JsonConverter<PowerState>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override PowerState Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.PowerState.On, global::MultiType.NET.Core.Anys.Types.PowerState.Off, global::MultiType.NET.Core.Anys.Types.PowerState.Auto>>(ref reader, options);
+        return new PowerState(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, PowerState value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

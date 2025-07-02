@@ -17,7 +17,7 @@ using Microsoft.CodeAnalysis.Text;
 /// </summary>
 /// <remarks>
 /// This generator targets types annotated with the <c>GenerateAnyAttribute</c>. The attribute must
-/// include the types to be encompassed by the any. Supported any types can include between 2 to 8
+/// include the types to be encompassed by the any. Supported any types can include between 2 to n
 /// distinct types.
 /// Generated any types are immutable and implement the necessary functionality to operate as
 /// discriminated anys, allowing type-safe functionality with provided methods.
@@ -52,7 +52,6 @@ public class AnyGenerator : IIncrementalGenerator
             static (ctx, tuple) =>
             {
                 var ((symbol, compilation), emitEnabled) = tuple;
-                
                 
                 if (!IsCompatibleSdkRuntime(ctx, symbol, compilation, emitEnabled)) return;
 
@@ -102,12 +101,13 @@ public class AnyGenerator : IIncrementalGenerator
                 var sb = new StringBuilder();
 
                 sb.AppendLine($$"""
-                                {{StructHeader(ns, anyName, genericAny, accessibility)}}
+                                {{StructHeader(ns, anyName, typeParams, genericAny, accessibility)}}
 
                                 {{GenerateImplicits(typeArgs, anyName, genericAny)}}
                                 {{GenerateProperties(genericAny)}}
                                 {{GenerateMethods(genericAny, anyName)}}
                                     }
+                                    {{GenerateJsonConvertorClass(anyName, genericAny, accessibility)}}
                                 """);
 
                 var formattedContent = CodeFormatter.Format($$"""
@@ -154,17 +154,28 @@ public class AnyGenerator : IIncrementalGenerator
 
 
 
-    private static string StructHeader(string ns, string anyName, string genericAny, Accessibility accessibility)
+    private static string StructHeader(string ns, string anyName, string typeParams, string genericAny, Accessibility accessibility)
     {
         return $$"""
                  #pragma warning disable 1591
                  namespace {{ns}};
                  using global::System.Runtime.CompilerServices;
+                 using global::System.Text.Json.Serialization;
+                 using global::MultiType.NET.Core.Serialization.Generated;
+                 using global::System.Text.Json;
+                 [JsonConverter(typeof({{anyName}}JsonConverter))]
                  {{(accessibility == Accessibility.Internal ? "internal" : "public")}} readonly partial struct {{anyName}} : global::MultiType.NET.Core.IAny
                  {
                  private readonly {{genericAny}} _inner;
 
                  public {{anyName}}({{genericAny}} value) => _inner = value;
+                 
+                 public static bool TryParse(string input, IFormatProvider? _, out global::{{ns}}.{{anyName}} result) 
+                 {
+                    var success = {{genericAny}}.TryParse(input, _, out var inner);
+                    result = new {{ns}}.{{anyName}}(inner);
+                    return success;
+                 }
                  """;
     }
 
@@ -229,6 +240,32 @@ public class AnyGenerator : IIncrementalGenerator
                  """;
     }
 
+    private static string GenerateJsonConvertorClass(string anyName,  string genericAny, Accessibility accessibility)
+    {
+        return $$"""
+                 {{(accessibility == Accessibility.Internal ? "internal" : "public")}} sealed class {{anyName}}JsonConverter : JsonConverter<{{anyName}}>
+                 {
+                     private static readonly JsonConverter<{{genericAny}}> _innerConverter =
+                         (JsonConverter<{{genericAny}}>) 
+                             (JsonSerializerOptions.Default.GetConverter(typeof({{genericAny}})) 
+                             ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+                 
+                     public override {{anyName}} Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+                     {
+                         // Use the configured converter (honors custom options)
+                         var inner = JsonSerializer.Deserialize<{{genericAny}}>(ref reader, options);
+                         return new {{anyName}}(inner!);
+                     }
+                 
+                     public override void Write(Utf8JsonWriter writer, {{anyName}} value, JsonSerializerOptions options)
+                     {
+                         // Avoid allocating unless needed
+                         JsonSerializer.Serialize(writer, value.Inner, options);
+                     }
+                 }
+                 """;
+    }
+    
     private static bool IsCompatibleSdkRuntime(
         SourceProductionContext ctx,
         INamedTypeSymbol? symbol,

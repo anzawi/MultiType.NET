@@ -1,193 +1,303 @@
-# 📦 MultiType.NET
+# 🚦 MultiType.NET
 
-MultiType.NET is a high-performance, strongly-typed **discriminated union** library for .NET. It provides type-safe modeling of multi-type values with zero-allocation structs, full pattern matching, JSON integration, and source generator support.
-
-## ✨ Features
-
-### ✅ Type-Safe Discriminated Unions
-
-- Supports `Union<T1, T2>` up to `Union<T1, ..., T8>`
-- Immutable `readonly struct` implementation
-- Full nullable reference type support
-- Safe type access: `Is<T>()`, `As<T>()`
-- Pattern matching APIs: `Match`, `TryMatch`, `If`
-
-### 🔁 JSON Integration
-
-- Native `System.Text.Json` support with discriminator format
-- `UnionJsonConverterFactory` for simple registration
-- Safe deserialization based on type index
-
-```json
-{
-"type": 1,
-"value": "hello"
-}
+**Type-safe, zero-allocation discriminated unions for modern .NET**  
+Bring TypeScript-style union types to C# — safer than `object`, cleaner than `if`, and built for real-world APIs and models.
+```csharp
+Any<int, string> result = "hello";
 ```
 
-### 🧠 Pattern Matching
-
-- `Match`: exhaustive and safe
-- `TryMatch`: nullable or `out` pattern
-- `If`: lightweight conditional
-
-### ⚙️ Source Generator
-
-- `[GenerateUnion(...)]` creates complete union struct
-- Auto-generates pattern matching and JSON converter
+![NuGet](https://img.shields.io/nuget/v/MultiType.NET.Core)
+![Downloads](https://img.shields.io/nuget/dt/MultiType.NET.Core)
+![License](https://img.shields.io/github/license/mohammadan/MultiType.NET)
+![Build](https://img.shields.io/github/actions/workflow/status/mohammadan/MultiType.NET/ci.yml)
 
 ---
 
-## 🚀 Getting Started
+## 🧠 What Is a Union Type?
 
-### 🔧 Creating a Union
+A **union type** lets a value be one of multiple specified types — like this in TypeScript:
 
-```csharp
-var value = new Union<string, int>("hello");
+```
+let result = number | string | null
+
+// C# with MultiType.NET
+Any<int, string> result = "hello";
 ```
 
-### 🔍 Pattern Matching
+MultiType.NET brings that idea to C# with full support for:
 
-```csharp
-var result = value.Match(
-s => $"It's a string: {s}",
-i => $"It's a number: {i}"
+- ✅ Type-safe access (`Is<T>()`, `As<T>()`, `Match`)
+- ✅ JSON (de)serialization
+- ✅ Zero boxing
+- ✅ ASP.NET API compatibility
+- ✅ Source generation for no-boilerplate code
+
+---
+
+## ✨ Features Overview
+
+| Category       | Features |
+|----------------|----------|
+| ✅ Matching     | `Match`, `TryMatch`, `Switch`, `SwitchAsync`, `SwitchOrDefault` |
+| 🔁 Mapping      | `Map`, `MapAsync`, `MapSafe`, `MapValue`, `MapAny`, `MapWithContext`, `MapOrDefault`, `MapWhere` |
+| 🔍 Selection    | `Select`, `TrySelect`, `SelectAsync`, `SelectAsyncOrDefault`, `SelectWithContext`, `SelectWhere` |
+| 📦 Extraction   | `GetTn`, `TryGetTn`, `GetTn(out remainder)`, `Deconstruct(...)` |
+| 🧠 Introspection| `ActualType`, `AllowedTypes`, `IsNull`, `ToString()` |
+| ⚙️ Construction | `From`, `TryFrom`, `FromTn`, implicit/explicit operators |
+| 📤 Serialization| Native `System.Text.Json` support (global or attribute-based) |
+| 🧑‍💻 API-Ready   | Works with Controllers & Minimal APIs |
+| 🧩 Generator     | Auto-generates union types via `[GenerateAny]` or `Any<T1..Tn>` |
+
+---
+
+## 🚀 Get Started
+
+### 📦 Install Core Library
+
+```
+dotnet add package MultiType.NET.Core
+```
+This gives you:
+
+- `Any<T1..T16>` prebuilt types
+- Core features like `Match`, `Map`, `Switch`, `TryMatch`, ...etc
+- JSON support via converter factory
+
+### 🔧 Add Optional Source Generators
+
+| Package | Description |
+|--------|-------------|
+| `MultiType.NET.Generator` | Adds `[GenerateAny(typeof(...))]` support |
+| `MultiType.NET.SourceGenerator` | Enables `Any<T1..Tn>` (over 16 types), JSON support, API integration |
+
+
+```
+dotnet add package MultiType.NET.Generator
+```
+This allow you to generate a custom types with `[GenerateAny]`, for more details [MultiType.NET.Generator attribute](link-here).
+```
+[GenerateAny(typeof(string), typeof(MyType))]
+public partial struct MyCustomType{}
+```
+This will generate `MyCustomType` with all MultiType APIs.
+
+### Need to generate `Any<T17, ..., Tn>`?
+
+Install the official CLI generator:
+
+```
+dotnet tool install --global MultiType.NET.SourceGenerator
+```
+Then run:
+
+```
+multitypegen --maxArity=50
+```
+
+for more details and documentation [MultiType.NET.SourceGenerator CLI](link-here)
+---
+
+## 💡 Learn by Example
+
+```
+Any<int, string, DateTime> result = "hello";
+
+string output = result.Match(
+    i => $"Int: {i}",
+    s => $"String: {s}",
+    d => $"Date: {d:yyyy-MM-dd}"
 );
 ```
 
-### 🔐 TryMatch Pattern
-
-```csharp
-if (value.TryMatch(out int number))
-Console.WriteLine($"Number: {number}");
+```
+if (result.TryGetT1(out var i, out var remainder))
+    Console.WriteLine($"Was int: {i}");
+else
+    Console.WriteLine($"Not an int: {remainder}");
 ```
 
-### 💬 Conditional If
-
-```csharp
-value.If((string s) => Console.WriteLine($"Hello: {s}"));
+```
+var summary = result.Select(
+    i => $"# {i}",
+    s => s.ToUpperInvariant(),
+    d => d.ToShortTimeString()
+);
 ```
 
 ---
 
-## 🧩 JSON Support
+## 🧱 Creating Any Values
 
-### 🔌 Register the Converter
+MultiType.NET offers multiple ways to construct union values.
 
-```csharp
-var options = new JsonSerializerOptions();
-options.Converters.Add(new UnionJsonConverterFactory());
+### ✅ `From(...)` — dynamic dispatch
+
+```
+object raw = 123;
+var value = Any<int, string, DateTime>.From(raw);
 ```
 
-### 📦 JSON Format
+> 💡 Throws if the value is not one of the allowed types.
 
-```json
+### ✅ `TryFrom(...)` — safe version
+
+```
+if (Any<int, string>.TryFrom(someValue, out var result))
 {
-"type": 2,
-"value": 42
+    // Use result
 }
 ```
 
-> Type index starts at `1` for the first generic parameter.
+### ✅ `FromTn(...)` — type-specific creation
 
----
-
-## 🧱 Interface: IUnion
-
-| Property     | Description                                   |
-|--------------|-----------------------------------------------|
-| `TypeIndex`  | Index of the active type (1-based)            |
-| `Value`      | The raw object value                          |
-| `Type`       | The runtime type of the active value          |
-| `Is<T>()`    | Whether the current value is of type `T`      |
-| `As<T>()`    | Casts the value to `T`, throws on mismatch    |
-
----
-
-## 🧬 Source Generation
-
-```csharp
-[GenerateUnion(typeof(string), typeof(int), typeof(bool))]
-public partial struct MyUnion { }
+```
+var a = Any<int, string, bool>.FromT1(42);
+var b = Any<int, string, bool>.FromT2("hello");
 ```
 
-### 🛠️ Project Setup
+> 💡 These are especially useful for code generation, dynamic input handling, or overload clarity.
 
-To enable source generation in a consumer project:
+### ✅ Implicit Operators
 
-```xml
-<ItemGroup>
-<ProjectReference Include="..\MultiType.NET.Generators\MultiType.NET.Generators.csproj"
-OutputItemType="Analyzer"
-ReferenceOutputAssembly="false" />
-</ItemGroup>
+```
+Any<int, string> v1 = 5;
+Any<int, string> v2 = "done";
 ```
 
 ---
 
-## 🧭 Best Practices
+## 📦 JSON Serialization
 
-1. Use the fewest type parameters possible.
-2. Prefer `Match` or `TryMatch` over type casting.
-3. Register the JSON converter once per `JsonSerializerOptions`.
-4. Use `[GenerateUnion]` for reusable custom unions.
-5. Handle all branches in `Match` for safety.
+MultiType.NET works seamlessly with `System.Text.Json`.
 
----
+### ✅ Global registration
 
-## ⚠️ Limitations
+```
+builder.Services.Configure<JsonOptions>(opts =>
+{
+    opts.JsonSerializerOptions.Converters.Add(new AnyJsonConverterFactory());
+});
+```
 
-- Max 8 types per union
-- Value types are boxed internally
-- No runtime inheritance or union polymorphism
+### ✅ Per-type registration
 
----
+```
+[JsonConverter(typeof(AnyJsonConverterFactory))]
+public readonly partial struct MyUnionType;
+```
 
-## 🧪 Performance Notes
+### 🧪 Example
 
-| Feature         | Efficiency                  |
-|------------------|-----------------------------|
-| Structs          | Zero-allocation             |
-| Matching         | Allocation-free             |
-| JSON Serialization | Boxes value types for encoding |
+```
+var options = new JsonSerializerOptions { WriteIndented = true };
+string json = JsonSerializer.Serialize(Any<int, string>.From(123), options);
+```
 
----
-
-## 📦 Requirements
-
-- .NET Standard 2.0+
-- .NET 6 / .NET 8 supported
-- C# 8.0+ required for nullable types
-- Uses only `System.Text.Json` (no Newtonsoft required)
+> 💡 JSON output includes both the value and the represented type.
 
 ---
 
-## 🤝 Contributing
+## 🧩 Custom Types with `[GenerateAny]`
+> ⚠️ Requires `MultiType.NET.Generator` installed.
 
-### 🙌 How to Contribute
+```
+[GenerateAny(typeof(int), typeof(string), typeof(Guid))]
+public partial struct ResponsePayload;
+```
 
-- Report bugs or request features via GitHub issues
-- Submit pull requests with improvements or new unions
-- Add examples or improve documentation
+```
+ResponsePayload payload = Guid.NewGuid();
 
-### 📌 Contribution Ideas
+payload.Match(
+    i => Console.WriteLine($"Int: {i}"),
+    s => Console.WriteLine($"Str: {s}"),
+    g => Console.WriteLine($"Guid: {g}")
+);
+```
 
-- Support `Union<T1,...,T16>`
-- Add optional Newtonsoft.Json integration
-- Add `UnionSwitch` syntax sugar
-- Improve generator to support default values, attributes
-- Add Roslyn analyzer to recommend union usage
+** More advanced Type**
+```
+[GenerateAny(typeof(Success), typeof(Warning), typeof(Error), typeof(Info))]
+public partial struct StatusType
+{
+    public static StatusType From(string value) => value.ToLowerInvariant() switch
+    {
+        "success" => new Success(),
+        "warning" => new Warning(),
+        "error" => new Error(),
+        "info" => new Info(),
+        _ => throw new ArgumentException("Invalid status", nameof(value))
+    };
 
-### 🔧 Local Dev Setup
+    public bool IsSuccess => this.Is<Success>();
+    public bool IsWarning => this.Is<Warning>();
+    public bool IsError => this.Is<Error>();
+    public bool IsInfo => this.Is<Info>();
 
-```xml
-<ProjectReference Include="MultiType.NET.Generators.csproj"
-OutputItemType="Analyzer"
-ReferenceOutputAssembly="false" />
+    public readonly struct Success { }
+    public readonly struct Warning { }
+    public readonly struct Error { }
+    public readonly struct Info { }
+}
 ```
 
 ---
 
-## 🌟 Show Your Support
+## ⚙️ How It Works (Behind the Scenes)
 
-If you find this project useful, star it and share it with others!
+- `Any<T1, ..., Tn>` is a readonly struct with internal value/ref handling.
+- Tracks active type via `TypeIndex`
+- Source generators:
+    - Generate custom union types with all logic
+    - Auto-wire JSON support
+    - Add full method surface (Match, Map, Select, etc.)
+
+---
+
+## 🧪 Real-World Use Cases
+
+| Use Case | Example |
+|----------|---------|
+| ✅ API Results | `Any<SuccessDto, ErrorDto>` |
+| 🧑‍⚖️ Workflow Results | `Any<Approved, Rejected, Escalated>` |
+| 🧠 State Modeling | `Any<Draft, Submitted, Published>` |
+| 🧾 Flexible Inputs | `Any<string, int, bool>` |
+| 🔄 Retry Backoff | `Any<RetryLater, Fail, Success>` |
+
+---
+
+## 📁 Project Structure
+
+| Project                        | Description |
+|-------------------------------|-------------|
+| `MultiType.NET.Core`          | Runtime types and logic |
+| `MultiType.NET.Generator`     | `[GenerateAny]` source generation |
+| `MultiType.NET.SourceGenerator` | JSON + `Any<T1..Tn>` generation |
+
+---
+
+## 📘 Documentation
+
+| Resource | Link |
+|----------|------|
+| 🔍 Advanced Features | [docs/AdvancedFeatures.md](docs/AdvancedFeatures.md) |
+| 🧠 Generator Guide | [docs/SourceGenerators.md](docs/SourceGenerators.md) |
+| 💡 Integration Tips | [docs/Integration.md](docs/Integration.md) |
+
+
+---
+
+## 🙌 Contributing
+
+Contributions, issues, and PRs are welcome!  
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) to get started.
+
+---
+
+## 📄 License
+
+MIT — [LICENSE](LICENSE)
+
+---
+
+> Because type safety shouldn't be optional.

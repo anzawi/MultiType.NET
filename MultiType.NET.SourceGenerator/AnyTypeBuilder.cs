@@ -66,6 +66,12 @@ internal class AnyTypeBuilder(int arity, string anyNamespace)
     {
         DeconstructMethodEmitter.EmitDeconstructMethod(this._sb, arity);
         return this;
+    } 
+    
+    public AnyTypeBuilder AddTryParseAndCastMethods()
+    {
+        ParseAndCastEmitter.EmitParseAndCastMethods(this._sb, arity);
+        return this;
     }
 
     public string? Build()

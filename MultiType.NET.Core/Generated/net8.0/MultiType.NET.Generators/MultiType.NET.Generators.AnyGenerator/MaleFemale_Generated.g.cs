@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(MaleFemaleJsonConverter))]
 public readonly partial struct MaleFemale : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female> _inner;
     public MaleFemale(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.MaleFemale result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.MaleFemale(inner);
+        return success;
+    }
+
     public static implicit operator MaleFemale(MultiType.NET.Core.Anys.Types.MaleFemale.Male value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>.From(value));
     public static implicit operator MaleFemale(MultiType.NET.Core.Anys.Types.MaleFemale.Female value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>.From(value));
     public byte TypeIndex => _inner.TypeIndex;
@@ -60,5 +71,22 @@ public readonly partial struct MaleFemale : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>.TryFrom(value, out var inner);
         result = new MaleFemale(inner);
         return success;
+    }
+}
+
+public sealed class MaleFemaleJsonConverter : JsonConverter<MaleFemale>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override MaleFemale Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.MaleFemale.Male, global::MultiType.NET.Core.Anys.Types.MaleFemale.Female>>(ref reader, options);
+        return new MaleFemale(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, MaleFemale value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

@@ -15,9 +15,9 @@ internal static class MatchMethodEmitter
     private static void EmitMatchFuncMethod(StringBuilder sb, int arity)
     {
         var caseParams = string.Join(", ", Enumerable.Range(1, arity)
-            .Select(i => $"Func<T{i}?, TResult> case{i}"));
+            .Select(i => $"Func<T{i}, TResult> case{i}"));
         var cases = string.Join(",\n                    ",
-            Enumerable.Range(1, arity).Select(i => $"{i} => case{i}(this.Is<T{i}>() ? this.As<T{i}>() : default)"));
+            Enumerable.Range(1, arity).Select(i => $"{i} => case{i}((T{i})Value!)"));
 
         sb.AppendLine($$"""
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,10 +36,10 @@ internal static class MatchMethodEmitter
     private static void EmitMatchActionMethod(StringBuilder sb, int arity)
     {
         var caseParams = string.Join(", ", Enumerable.Range(1, arity)
-            .Select(i => $"Action<T{i}?> case{i}"));
+            .Select(i => $"[MaybeNull] Action<T{i}> case{i}"));
         var cases = string.Join("\n                    ",
             Enumerable.Range(1, arity)
-                .Select(i => $"case {i}: case{i}(this.Is<T{i}>() ? this.As<T{i}>() : default); break;"));
+                .Select(i => $"case {i}: case{i}((T{i})Value!); break;"));
 
         sb.AppendLine($$"""
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -67,10 +67,10 @@ internal static class TryMatchMethodEmitter
     private static void EmitTryMatchFuncMethod(StringBuilder sb, int arity)
     {
         var caseParams = string.Join(", ", Enumerable.Range(1, arity)
-            .Select(i => $"Func<T{i}?, TResult>? case{i} = null"));
+            .Select(i => $"Func<T{i}, TResult>? case{i} = null"));
         var cases = string.Join(",\n                    ",
             Enumerable.Range(1, arity).Select(i =>
-                $"{i} when case{i} != null => case{i}(this.Is<T{i}>() ? this.As<T{i}>() : default)"));
+                $"{i} when case{i} != null => case{i}((T{i})Value!)"));
 
         sb.AppendLine($$"""
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -89,10 +89,10 @@ internal static class TryMatchMethodEmitter
     private static void EmitTryMatchActionMethod(StringBuilder sb, int arity)
     {
         var caseParams = string.Join(", ", Enumerable.Range(1, arity)
-            .Select(i => $"Action<T{i}?>? case{i} = null"));
+            .Select(i => $"[MaybeNull] Action<T{i}>? case{i} = null"));
         var cases = string.Join("\n                    ",
             Enumerable.Range(1, arity).Select(i =>
-                $"case {i} when case{i} != null:\ncase{i}(this.Is<T{i}>() ? this.As<T{i}>() : default);\n                        break;"));
+                $"case {i} when case{i} != null:\ncase{i}((T{i})Value!);\n                        break;"));
 
         sb.AppendLine($$"""
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]

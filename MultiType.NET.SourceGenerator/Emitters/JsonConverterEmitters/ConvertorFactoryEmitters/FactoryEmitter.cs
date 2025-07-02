@@ -42,13 +42,33 @@ internal static class FactoryEmitter
                             /// <returns>A JsonConverter instance capable of handling the specified type.</returns>
                             public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
                             {
-                                var args = typeToConvert.GetGenericArguments();
-                                return args.Length switch
+                               var args = typeToConvert.GetGenericArguments();
+                                var arity = args.Length;
+                                if (arity <= {{arity}})
                                 {
-                                    {{string.Join(",\n ", Enumerable.Range(2, arity-1)
-                                        .Select(i => $"{i} => (JsonConverter)Activator.CreateInstance(typeof(AnyJsonConverter<{RepeatComma(i)}>).MakeGenericType(args))!"))}},
-                                    _ => throw new NotSupportedException($"Any<{args.Length}> is not supported. Try 'MuliType.NET.SourceGenerator' to generate +17 types with its convertors."),
-                                };
+                                    return args.Length switch
+                                    {
+                                        {{string.Join(",\n ", Enumerable.Range(2, arity-1)
+                                                    .Select(i => $"{i} => Create(typeof(AnyJsonConverter<{RepeatComma(i)}>))"))}},
+                                        _ => throw new NotSupportedException($"Any<{args.Length}> is not supported. Try 'MuliType.NET.SourceGenerator' to generate +17 types with its convertors."),
+                                    };
+                                    
+                                    JsonConverter Create(Type openGeneric) => 
+                                       (JsonConverter)Activator.CreateInstance(openGeneric.MakeGenericType(args))!;
+                                }
+                                
+                                // Fallback for dynamically generated AnyJsonConverter<+17>
+                                var genericName = $"MultiType.NET.Core.Serialization.Generated.AnyJsonConverter`{arity}";
+                                var genericType = AppDomain.CurrentDomain
+                                    .GetAssemblies()
+                                    .Select(a => a.GetType(genericName, throwOnError: false))
+                                    .FirstOrDefault(t => t is not null);
+                                
+                                if (genericType == null)
+                                    throw new NotSupportedException($"No AnyJsonConverter<{arity}> found. Install and run 'MuliType.NET.SourceGenerator' with --maxArity={arity} to generate it.");
+                                
+                                var closedType = genericType.MakeGenericType(args);
+                                return (JsonConverter)Activator.CreateInstance(closedType)!;
                             }
                         }
                         """);

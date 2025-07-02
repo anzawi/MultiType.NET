@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(YesOrNoJsonConverter))]
 public readonly partial struct YesOrNo : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False> _inner;
     public YesOrNo(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.YesOrNo result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.YesOrNo(inner);
+        return success;
+    }
+
     public static implicit operator YesOrNo(MultiType.NET.Core.Anys.Types.YesOrNo.True value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>.From(value));
     public static implicit operator YesOrNo(MultiType.NET.Core.Anys.Types.YesOrNo.False value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>.From(value));
     public byte TypeIndex => _inner.TypeIndex;
@@ -60,5 +71,22 @@ public readonly partial struct YesOrNo : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>.TryFrom(value, out var inner);
         result = new YesOrNo(inner);
         return success;
+    }
+}
+
+public sealed class YesOrNoJsonConverter : JsonConverter<YesOrNo>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override YesOrNo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.YesOrNo.True, global::MultiType.NET.Core.Anys.Types.YesOrNo.False>>(ref reader, options);
+        return new YesOrNo(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, YesOrNo value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

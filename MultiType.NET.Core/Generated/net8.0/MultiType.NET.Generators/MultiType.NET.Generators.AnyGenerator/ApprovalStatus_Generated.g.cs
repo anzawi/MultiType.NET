@@ -13,15 +13,26 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(ApprovalStatusJsonConverter))]
 public readonly partial struct ApprovalStatus : global::MultiType.NET.Core.IAny
 {
-    private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled> _inner;
-    public ApprovalStatus(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled> value) => _inner = value;
-    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.From(value));
-    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.From(value));
-    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.From(value));
-    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.From(value));
+    private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?> _inner;
+    public ApprovalStatus(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.ApprovalStatus result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.ApprovalStatus(inner);
+        return success;
+    }
+
+    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved? value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.From(value));
+    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected? value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.From(value));
+    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending? value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.From(value));
+    public static implicit operator ApprovalStatus(MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled? value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.From(value));
     public byte TypeIndex => _inner.TypeIndex;
     /// <inheritdoc/>
     public object? Value => _inner.Value;
@@ -34,11 +45,11 @@ public readonly partial struct ApprovalStatus : global::MultiType.NET.Core.IAny
     /// <summary>
     /// The set of allowed types for this Any.
     /// </summary>
-    public Type[] AllowedTypes => global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.AllowedTypes;
+    public Type[] AllowedTypes => global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.AllowedTypes;
     /// <summary>
     /// The type of the value contained in this Any.
     /// </summary>
-    public global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled> Inner => _inner;
+    public global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?> Inner => _inner;
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,12 +66,29 @@ public readonly partial struct ApprovalStatus : global::MultiType.NET.Core.IAny
     public T? AsNullableStruct<T>()
         where T : struct => _inner.AsNullableStruct<T>();
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ApprovalStatus From(object? value) => new ApprovalStatus(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.From(value));
+    public static ApprovalStatus From(object? value) => new ApprovalStatus(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.From(value));
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool TryFrom(object? value, out ApprovalStatus result)
     {
-        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled>.TryFrom(value, out var inner);
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>.TryFrom(value, out var inner);
         result = new ApprovalStatus(inner);
         return success;
+    }
+}
+
+public sealed class ApprovalStatusJsonConverter : JsonConverter<ApprovalStatus>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override ApprovalStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Approved?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Rejected?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Pending?, global::MultiType.NET.Core.Anys.Types.ApprovalStatus.Canceled?>>(ref reader, options);
+        return new ApprovalStatus(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, ApprovalStatus value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

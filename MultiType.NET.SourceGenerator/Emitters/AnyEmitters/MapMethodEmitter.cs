@@ -77,7 +77,7 @@ internal static class MapMethodEmitter
                         /// Maps the value to a new Any type with different type parameters.
                         /// </summary>
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                        public Any<{{typeParams}}> MapAny<{{typeParams}}>({{parameters}})
+                        public global::MultiType.NET.Core.Anys.Generated.Any<{{typeParams}}> MapAny<{{typeParams}}>({{parameters}})
                         {
                             return TypeIndex switch
                             {
@@ -242,7 +242,7 @@ internal static class MapMethodEmitter
 
         var parameters = string.Join(", ",
             Enumerable.Range(1, arity)
-                .Select(i => $"Func<Any<{typeParams}>, T{i}, TResult> map{i}"));
+                .Select(i => $"Func<global::MultiType.NET.Core.Anys.Generated.Any<{typeParams}>, T{i}, TResult> map{i}"));
 
         var cases = string.Join("\n            ",
             Enumerable.Range(1, arity)

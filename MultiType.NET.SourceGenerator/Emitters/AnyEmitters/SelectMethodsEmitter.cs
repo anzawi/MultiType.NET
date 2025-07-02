@@ -55,7 +55,7 @@ public class SelectMethodsEmitter
 
     // SelectWithContext
     var contextSelectors = string.Join(", ",
-        Enumerable.Range(1, arity).Select(i => $"Func<Any<{string.Join(", ", Enumerable.Range(1, arity).Select(j => $"T{j}"))}>, T{i}, TResult> selector{i}"));
+        Enumerable.Range(1, arity).Select(i => $"Func<global::MultiType.NET.Core.Anys.Generated.Any<{string.Join(", ", Enumerable.Range(1, arity).Select(j => $"T{j}"))}>, T{i}, TResult> selector{i}"));
 
     var contextCases = string.Join(",\n            ",
         Enumerable.Range(1, arity).Select(i => $"{i} when Value is T{i} v{i} => selector{i}(this, v{i})"));

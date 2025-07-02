@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(TrueFalseOrNullJsonConverter))]
 public readonly partial struct TrueFalseOrNull : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null> _inner;
     public TrueFalseOrNull(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.TrueFalseOrNull(inner);
+        return success;
+    }
+
     public static implicit operator TrueFalseOrNull(MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>.From(value));
     public static implicit operator TrueFalseOrNull(MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>.From(value));
     public static implicit operator TrueFalseOrNull(MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>.From(value));
@@ -61,5 +72,22 @@ public readonly partial struct TrueFalseOrNull : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>.TryFrom(value, out var inner);
         result = new TrueFalseOrNull(inner);
         return success;
+    }
+}
+
+public sealed class TrueFalseOrNullJsonConverter : JsonConverter<TrueFalseOrNull>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override TrueFalseOrNull Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.True, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.False, global::MultiType.NET.Core.Anys.Types.TrueFalseOrNull.Null>>(ref reader, options);
+        return new TrueFalseOrNull(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, TrueFalseOrNull value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

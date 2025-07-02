@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(EnabledDisabledJsonConverter))]
 public readonly partial struct EnabledDisabled : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled> _inner;
     public EnabledDisabled(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.EnabledDisabled result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.EnabledDisabled(inner);
+        return success;
+    }
+
     public static implicit operator EnabledDisabled(MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>.From(value));
     public static implicit operator EnabledDisabled(MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>.From(value));
     public byte TypeIndex => _inner.TypeIndex;
@@ -60,5 +71,22 @@ public readonly partial struct EnabledDisabled : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>.TryFrom(value, out var inner);
         result = new EnabledDisabled(inner);
         return success;
+    }
+}
+
+public sealed class EnabledDisabledJsonConverter : JsonConverter<EnabledDisabled>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override EnabledDisabled Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Enabled, global::MultiType.NET.Core.Anys.Types.EnabledDisabled.Disabled>>(ref reader, options);
+        return new EnabledDisabled(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, EnabledDisabled value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(SuccessOrFailureJsonConverter))]
 public readonly partial struct SuccessOrFailure : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure> _inner;
     public SuccessOrFailure(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.SuccessOrFailure result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.SuccessOrFailure(inner);
+        return success;
+    }
+
     public static implicit operator SuccessOrFailure(MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>.From(value));
     public static implicit operator SuccessOrFailure(MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>.From(value));
     public byte TypeIndex => _inner.TypeIndex;
@@ -60,5 +71,22 @@ public readonly partial struct SuccessOrFailure : global::MultiType.NET.Core.IAn
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>.TryFrom(value, out var inner);
         result = new SuccessOrFailure(inner);
         return success;
+    }
+}
+
+public sealed class SuccessOrFailureJsonConverter : JsonConverter<SuccessOrFailure>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override SuccessOrFailure Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Success, global::MultiType.NET.Core.Anys.Types.SuccessOrFailure.Failure>>(ref reader, options);
+        return new SuccessOrFailure(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, SuccessOrFailure value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

@@ -45,7 +45,7 @@ internal static class HeadersEmitter
     {
         sb.AppendLine($$"""
                         public class
-                            AnyJsonConverter<{{typeParams}}> : JsonConverter<Any<{{typeParams}}>>
+                            AnyJsonConverter<{{typeParams}}> : JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<{{typeParams}}>>
                         {
                             /// <summary>
                             /// Represents the name of the property in a serialized JSON object that is used as

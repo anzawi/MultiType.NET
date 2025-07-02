@@ -34,7 +34,7 @@ internal static class WriteMethodEmitter
     private static void EmitMethod(StringBuilder sb, int arity, string typeParams)
     {
         sb.AppendLine($$"""
-                        public override void Write(Utf8JsonWriter writer, Any<{{typeParams}}> value,
+                        public override void Write(Utf8JsonWriter writer, global::MultiType.NET.Core.Anys.Generated.Any<{{typeParams}}> value,
                             JsonSerializerOptions options)
                         {
                             writer.WriteStartObject();

@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(TimeReferenceJsonConverter))]
 public readonly partial struct TimeReference : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future> _inner;
     public TimeReference(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.TimeReference result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.TimeReference(inner);
+        return success;
+    }
+
     public static implicit operator TimeReference(MultiType.NET.Core.Anys.Types.TimeReference.Past value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>.From(value));
     public static implicit operator TimeReference(MultiType.NET.Core.Anys.Types.TimeReference.Present value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>.From(value));
     public static implicit operator TimeReference(MultiType.NET.Core.Anys.Types.TimeReference.Future value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>.From(value));
@@ -61,5 +72,22 @@ public readonly partial struct TimeReference : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>.TryFrom(value, out var inner);
         result = new TimeReference(inner);
         return success;
+    }
+}
+
+public sealed class TimeReferenceJsonConverter : JsonConverter<TimeReference>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override TimeReference Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.TimeReference.Past, global::MultiType.NET.Core.Anys.Types.TimeReference.Present, global::MultiType.NET.Core.Anys.Types.TimeReference.Future>>(ref reader, options);
+        return new TimeReference(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, TimeReference value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

@@ -1,5 +1,0 @@
-root = true
-
-[*.cs]
-build_property.EmitCompilerGeneratedFiles = true
-build_property.CompilerGeneratedFilesOutputPath = Generated/net8.0

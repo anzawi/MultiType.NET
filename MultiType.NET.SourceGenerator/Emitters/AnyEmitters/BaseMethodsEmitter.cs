@@ -6,15 +6,13 @@ using System.Text;
 
 public static class BaseMethodsEmitter
 {
-    private const string NullString = "null";
-
     private static string GenerateTypeParameters(int arity) =>
         string.Join(", ", Enumerable.Range(1, arity).Select(i => $"T{i}"));
 
     public static void EmitBaseMethods(StringBuilder sb, int arity, string anyNamespace)
     {
         var typeParams = GenerateTypeParameters(arity);
-        EmitAnyClassHeader(sb, typeParams, anyNamespace);
+        EmitAnyClassHeader(sb, arity, typeParams, anyNamespace);
         EmitAnyFields(sb);
         EmitAnyProperties(sb);
         EmitAllowedTypes(sb, arity);
@@ -26,20 +24,22 @@ public static class BaseMethodsEmitter
         EmitToString(sb);
     }
 
-    private static void EmitAnyClassHeader(StringBuilder sb, string typeParams, string anyNamespace) =>
+    private static void EmitAnyClassHeader(StringBuilder sb, int arity, string typeParams, string anyNamespace) =>
         sb.AppendLine($$"""
                             namespace {{anyNamespace}};
-                            using Exceptions;
-                            using Helpers;
-                            using System.Diagnostics;
-                            using System.Runtime.CompilerServices;
-                            using System.Text.Json.Serialization;
-                            using {{anyNamespace.Replace("Anys", "Serialization")}};
+                            using global::System.Diagnostics.CodeAnalysis;
+                            using global:: System.Diagnostics;
+                            using global:: System.Runtime.CompilerServices;
+                            using global:: System.Text.Json.Serialization;
+                            using global::MultiType.NET.Core.Helpers;
+                            using global::System.Text.Json;
+                            using global::MultiType.NET.Core.Exceptions;
+                            using global::{{anyNamespace.Replace("Anys", "Serialization")}};
                             
                             /// <inheritdoc />
-                            [JsonConverter(typeof(AnyJsonConverterFactory))]
+                            [JsonConverter(typeof(AnyJsonConverter<{{RepeatComma(arity)}}>))]
                             [DebuggerDisplay("{DebuggerDisplay,nq}")]
-                            public readonly struct Any<{{typeParams}}> : IAny
+                            public readonly struct Any<{{typeParams}}> : global::MultiType.NET.Core.IAny
                             {
                             private string DebuggerDisplay =>
                                 TypeIndex == 0
@@ -88,25 +88,24 @@ public static class BaseMethodsEmitter
 
     private static void EmitAnyMethods(StringBuilder sb, int arity)
     {
-        var typeCheckConditions = string.Join(" || ",
-            Enumerable.Range(1, arity).Select(i => $"typeof(T) == typeof(T{i}) && TypeIndex == {i}"));
+        var typeCheckConditions = string.Join(" || \n",
+            Enumerable.Range(1, arity).Select(i => $"(typeof(T) == typeof(T{i}) && TypeIndex == {i})"));
+        
+        var typeNotListedError = string.Join(", ",
+            Enumerable.Range(1, arity).Select(i => $$"""{typeof(T{{i}}).Name}"""));
 
         sb.AppendLine($$"""
                             /// <inheritdoc />
                             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                            public bool Is<T>() => Value is T;
+                            public bool Is<T>() => {{typeCheckConditions}};
                             
                             /// <inheritdoc />
                             public T As<T>()
                             {
-                                if ({{typeCheckConditions}})
-                                {
-                                    return Value is T val
-                                        ? val
-                                        : throw new InvalidCastException(
-                                            $"Cannot cast Any value of type {Value?.GetType().Name ?? "{{NullString}}"} to {typeof(T).Name}");
-                                }
-                                throw new InvalidCastException($"Type {typeof(T).Name} is not one of the Any type parameters");
+                                if (Is<T>())
+                                     return (T)Value!;
+                        
+                                throw new InvalidCastException($"Type {typeof(T).Name} is not stored in this Any<{{typeNotListedError}}>.");
                             }
                             
                             /// <inheritdoc />
@@ -175,7 +174,7 @@ public static class BaseMethodsEmitter
     private static void EmitToString(StringBuilder sb) =>
         sb.AppendLine("""
                       /// <summary>
-                      // Returns a string representation of the current Any value.
+                      /// Returns a string representation of the current Any value.
                       /// </summary>
                       public override string ToString() 
                       {
@@ -224,7 +223,7 @@ public static class BaseMethodsEmitter
                                      case T{i} v{i}:
                                        result = new Any<{typeParams}>(v{i});
                                        return true;
-                                     
+
                                      """))}}
                                 default:
                                     result = default;
@@ -241,13 +240,18 @@ public static class BaseMethodsEmitter
         {
             sb.AppendLine($$"""
                             /// <summary>
-                            /// Creates a new Any from the given value of type T{{i+1}}.
+                            /// Creates a new Any from the given value of type T{{i + 1}}.
                             /// </summary>
                             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                            public static Any<{{typeParams}}> FromT{{i+1}}(T{{i+1}}? value) {
+                            public static Any<{{typeParams}}> FromT{{i + 1}}(T{{i + 1}}? value) {
                                 return new Any<{{typeParams}}>(value);
                             }
                             """);
         }
+    }
+    
+    private static string RepeatComma(int numberOfCommas)
+    {
+        return new string(',', numberOfCommas - 1);
     }
 }

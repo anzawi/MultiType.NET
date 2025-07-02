@@ -27,18 +27,18 @@ internal abstract class Notifications
 
     public static readonly DiagnosticDescriptor EmitGeneratedFileDisabledError = new(
         id: "ANYGEN3009",
-        title: "Improper Configuration",
-        messageFormat: @"MultiType.NET Source Generator detected a configuration issue, Ensure:
-                        `<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>`,`<GeneratedFolder>Generated</GeneratedFolder>`,
-                        `<CompilerGeneratedFilesOutputPath>$(GeneratedFolder)/$(TargetFramework)</CompilerGeneratedFilesOutputPath>`
-                         are used",
+        title: "MultiType.NET Source Generator detected a misconfiguration",
+        messageFormat: @"To enable file output for source generators, ensure the following MSBuild properties are set:
+  <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  <GeneratedFolder>Generated</GeneratedFolder>
+  <CompilerGeneratedFilesOutputPath>$(GeneratedFolder)/$(TargetFramework)</CompilerGeneratedFilesOutputPath>",
         category: Consts.DiagnosticCategory,
         DiagnosticSeverity.Error,
         isEnabledByDefault: true
     ); 
     
     public static readonly DiagnosticDescriptor TargetUnsupportedFramework = new(
-        id: "ANYGEN4009",
+        id: "ANYGEN4009",   
         title: "Improper Configuration",
         messageFormat: "MultiType.NET Source Generator detected unsupported target framework '{0}', Minimum supported target framework is 'net8.0'",
         category: Consts.DiagnosticCategory,

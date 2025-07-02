@@ -13,11 +13,22 @@
 #pragma warning disable 1591
 namespace MultiType.NET.Core.Anys.Types;
 using global::System.Runtime.CompilerServices;
+using global::System.Text.Json.Serialization;
+using global::MultiType.NET.Core.Serialization.Generated;
+using global::System.Text.Json;
 
+[JsonConverter(typeof(WorkflowStatusJsonConverter))]
 public readonly partial struct WorkflowStatus : global::MultiType.NET.Core.IAny
 {
     private readonly global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived> _inner;
     public WorkflowStatus(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived> value) => _inner = value;
+    public static bool TryParse(string? input, IFormatProvider? _, out global::MultiType.NET.Core.Anys.Types.WorkflowStatus result)
+    {
+        var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>.TryParse(input, _, out var inner);
+        result = new MultiType.NET.Core.Anys.Types.WorkflowStatus(inner);
+        return success;
+    }
+
     public static implicit operator WorkflowStatus(MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>.From(value));
     public static implicit operator WorkflowStatus(MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>.From(value));
     public static implicit operator WorkflowStatus(MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved value) => new(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>.From(value));
@@ -63,5 +74,22 @@ public readonly partial struct WorkflowStatus : global::MultiType.NET.Core.IAny
         var success = global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>.TryFrom(value, out var inner);
         result = new WorkflowStatus(inner);
         return success;
+    }
+}
+
+public sealed class WorkflowStatusJsonConverter : JsonConverter<WorkflowStatus>
+{
+    private static readonly JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>> _innerConverter = (JsonConverter<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>>)(JsonSerializerOptions.Default.GetConverter(typeof(global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>)) ?? throw new InvalidOperationException("Missing AnyJsonConverter."));
+    public override WorkflowStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // Use the configured converter (honors custom options)
+        var inner = JsonSerializer.Deserialize<global::MultiType.NET.Core.Anys.Generated.Any<global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Draft, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Submitted, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Approved, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Rejected, global::MultiType.NET.Core.Anys.Types.WorkflowStatus.Archived>>(ref reader, options);
+        return new WorkflowStatus(inner!);
+    }
+
+    public override void Write(Utf8JsonWriter writer, WorkflowStatus value, JsonSerializerOptions options)
+    {
+        // Avoid allocating unless needed
+        JsonSerializer.Serialize(writer, value.Inner, options);
     }
 }

@@ -36,7 +36,7 @@ internal static class GetMethodEmitter
         string remainderTypes)
     {
         var signature = hasRemainder
-            ? $"public T{index} GetT{index}(out Any<{remainderTypes}> remainder)"
+            ? $"public T{index} GetT{index}(out global::MultiType.NET.Core.Anys.Generated.Any<{remainderTypes}> remainder)"
             : $"public T{index} GetT{index}()";
 
         sb.AppendLine($$"""
@@ -49,7 +49,7 @@ internal static class GetMethodEmitter
                                                        {{
                                                            string.Join(", \n", Enumerable.Range(1, arity)
                                                                .Where(i => i != index)
-                                                               .Select(i => $"{i} => Any<{remainderTypes}>.From((T{i})Value!)"))
+                                                               .Select(i => $"{i} => global::MultiType.NET.Core.Anys.Generated.Any<{remainderTypes}>.From((T{i})Value!)"))
                                                        }},
                                                        _ => default
                                                    };
@@ -81,6 +81,20 @@ internal static class TryGetMethodEmitter
 {
     public static void EmitTryGetMethods(StringBuilder sb, int arity)
     {
+        sb.AppendLine("""
+                        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                        public bool TryGet<T>([MaybeNull] out T value)
+                        {
+                            if (Is<T>())
+                            {
+                                value = As<T>();
+                                return true;
+                            }
+                        
+                            value = default!;
+                            return false;
+                        }
+                        """);
         // Generate TryGet methods for each type parameter
         for (var i = 1; i <= arity; i++)
         {
@@ -108,14 +122,14 @@ internal static class TryGetMethodEmitter
     private static void GenerateTryGetTn(StringBuilder sb, int arity, int index, bool hasRemainder, string remainderTypes)
     {
         var signature = hasRemainder
-            ? $"public bool TryGetT{index}(out T{index}? value, out Any<{remainderTypes}> remainder)"
-            : $"public bool TryGetT{index}(out T{index}? value)";
+            ? $"public bool TryGetT{index}([MaybeNull] out T{index} value, out global::MultiType.NET.Core.Anys.Generated.Any<{remainderTypes}> remainder)"
+            : $"public bool TryGetT{index}([MaybeNull] out T{index} value)";
         sb.AppendLine($$"""
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]
                         {{signature}}
                         {
                             value = default;
-                            {{(hasRemainder ? $"remainder = default;" : "")}}
+                            {{(hasRemainder ? "remainder = default;" : "")}}
 
                             if (TypeIndex == {{index}} && Value is T{{index}} t{{index}})
                             {
@@ -141,6 +155,6 @@ internal static class TryGetMethodEmitter
 
         return string.Join(" else ", Enumerable.Range(1, arity)
             .Where(i => i != index)
-            .Select(i => $"if(TypeIndex == {i} && Value is T{i} t{i}) remainder = Any<{remainderTypes}>.From(t{i});"));
+            .Select(i => $"if(TypeIndex == {i} && Value is T{i} t{i}) remainder = global::MultiType.NET.Core.Anys.Generated.Any<{remainderTypes}>.From(t{i});"));
     }
 }

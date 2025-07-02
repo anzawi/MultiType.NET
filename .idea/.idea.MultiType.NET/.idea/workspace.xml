@@ -8,100 +8,125 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41dcdd8c-b817-4602-b7d2-0942c10995e4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/ApprovalStatus.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/DirectionMode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/EnabledDisabled.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/MaleFemale.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/PowerState.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/SortOrder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/StartStopPause.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/StatusType.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/SuccessOrFailure.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/TimeReference.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/TrueFalseOrNull.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/WorkflowStatus.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/YesOrNo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Exceptions/InvalidAnyStateException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/local-packages/MultiType.NET.Generators.1.0.0.nupkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/nuget.config" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/AnalyzerReleases/Unshipped.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/AnyGenerator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/Constants/Consts.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/ForceGeneratorBuild.targets" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/CodeFormatter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/Functions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/Notifications.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.Generators/ObsoleteAttributeSuppressor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyJsonConvertorFactoryBuilder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/ConvertorFactoryEmitters/FactoryEmitter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/samples/.editorconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/samples/SampleProject/nuget.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Exceptions/InvalidUnionStateException.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Extensions/MatchExtensions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Helpers/Guards.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/Helpers/Guards.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/IUnion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/IAny.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CONTRIBUTING.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MultiType.NET.Core/Helpers/TypeParsing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/ParseAndCastEmitter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/AdvancedFeatures.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/AnyGenerator.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/CLIGenerator.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any10JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any11JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any12JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any13JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any14JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any15JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any16JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any2JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any3JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any4JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any5JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any6JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any7JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any8JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any9JsonConverter.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/AnyJsonConverterFactory.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any10.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any11.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any12.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any13.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any14.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any15.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any16.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any2.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any3.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any4.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any5.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any6.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any7.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any8.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any9.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/ApprovalStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/ApprovalStatus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/ApprovalStatus_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/DirectionMode_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/EnabledDisabled_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/MaleFemale_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/PowerState_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/SortOrder_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/StartStopPause_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/StatusType_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/SuccessOrFailure_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/TimeReference_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/TrueFalseOrNull_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/WorkflowStatus_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/YesOrNo_Generated.g.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/MultiType.NET.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/MultiType.NET.Core.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union2JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union3JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union4JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union5JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union6JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union7JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/Union8JsonConverter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Serialization/UnionJsonConverterFactory.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union2.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union3.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union4.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union5.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union6.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union7.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/Unions/Union8.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/GenerateUnionAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/Attributes/GenerateAnyAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/local-packages/MultiType.NET.Generators.1.0.0.nupkg" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/local-packages/MultiType.NET.Generators.1.0.0.nupkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/AnyGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Generators/AnyGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/Functions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/Functions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/Notifications.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Generators/Helpers/Notifications.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/MultiType.NET.Generators.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Generators/MultiType.NET.Generators.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/UnionGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/UnionSyntaxReceiver.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/ObsoleteAttributeSuppressor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyTypeBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyTypeBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/BaseMethodsEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/BaseMethodsEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/EqualityEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/EqualityEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/GetMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/GetMethodEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/MapMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/MapMethodEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/MatchMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/MatchMethodEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/SelectMethodsEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/SelectMethodsEmitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/ConvertorFactoryEmitters/FactoryEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/ConvertorFactoryEmitters/FactoryEmitter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/HeadersEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/HeadersEmitter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/ReadMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/ReadMethodEmitter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/WriteMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/WriteMethodEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/BaseMethodsEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/BaseMethodsEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/DeconstructMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/DeconstructMethodEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/EqualityEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/EqualityEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/GetMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/GetMethodEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/MapMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/MapMethodEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/MatchMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/MatchMethodEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/SelectMethodsEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/SelectMethodsEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/UnionEmitters/SwitchMethodEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/AnyEmitters/SwitchMethodEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/UnionEmitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyEmitter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/UnionJsonConverterBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyJsonConverterBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/UnionTypeBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyTypeBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/MultiType.NET.SourceGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/MultiType.NET.SourceGenerator.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MultiType.NET.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/global.json" beforeDir="false" afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/SampleProject/Class1.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/SampleProject/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/SuccessOrFailure_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/SampleProject/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/TrueFalseOrNull_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/SampleProject/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/YesOrNo_Generated.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/SampleProject/SampleProject.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/SampleProject/nuget.config" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cfd804a4bb7b4f37a0fd4b589a246b1dd83a00/1f/d40b9f89/Path.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cfd804a4bb7b4f37a0fd4b589a246b1dd83a00/37/69484b7e/StringBuilder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a01ea3a21b702eeff1a39361141c01fa1aa38b24c9443aad4182f44356330/IncrementalValueProvider.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc72a37a49246ce5c617c941f0544088ba13ed715fdb56046806b1b77627d16/DiagnosticDescriptor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/DirectionMode_Generated.g.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/TrueFalseOrNull_Generated.g.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/samples/SampleProject/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/TrueFalseOrNull_Generated.g.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file:///var/folders/d7/wwlcqrq91kzg2zp5gtcv17zm0000gn/T/SourceGeneratedDocuments/DAB6E02DD6333A5A12B9293A/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/DirectionMode_Generated.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/Any5JsonConverter.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/AnySerializations/Generated/AnyJsonConverterFactory.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any2.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Anys/Generated/Any3.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Anys/Types/ApprovalStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/ApprovalStatus_Generated.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.Core/Generated/net8.0/MultiType.NET.Generators/MultiType.NET.Generators.AnyGenerator/MaleFemale_Generated.g.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.SourceGenerator/AnyEmitter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MultiType.NET.SourceGenerator/Emitters/JsonConverterEmitters/ConvertorFactoryEmitters/FactoryEmitter.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 2
@@ -116,6 +141,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;.NET Project.MultiType.NET.SourceGenerator.executor&quot;: &quot;Debug&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
@@ -131,9 +157,9 @@
 }</component>
   <component name="RunManager">
     <configuration name="MultiType.NET.SourceGenerator" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/MultiType.NET.SourceGenerator/bin/Debug/net8.0/MultiType.NET.SourceGenerator" />
+      <option name="PROGRAM_PARAMETERS" value="--project MultiType.Core.csproj" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MultiType.NET.SourceGenerator/bin/Debug/net8.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
@@ -148,7 +174,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net8.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -162,8 +188,47 @@
       <option name="presentableId" value="Default" />
       <updated>1749752676920</updated>
       <workItem from="1749752678320" duration="14788000" />
-      <workItem from="1749843509810" duration="16147000" />
+      <workItem from="1749843509810" duration="20418000" />
+      <workItem from="1749942535285" duration="712000" />
+      <workItem from="1749960881037" duration="2492000" />
+      <workItem from="1750110612127" duration="10932000" />
+      <workItem from="1750355807559" duration="42000" />
+      <workItem from="1750355967221" duration="43000" />
+      <workItem from="1750356131963" duration="277000" />
+      <workItem from="1750356749761" duration="5354000" />
+      <workItem from="1750371597698" duration="6707000" />
+      <workItem from="1750458899781" duration="5890000" />
+      <workItem from="1750464816736" duration="481000" />
+      <workItem from="1750466226995" duration="3667000" />
+      <workItem from="1750536646859" duration="3589000" />
+      <workItem from="1751493962152" duration="107000" />
+      <workItem from="1751494085394" duration="510000" />
     </task>
+    <task id="LOCAL-00001" summary="complete source generator">
+      <option name="closed" value="true" />
+      <created>1749871573675</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1749871573675</updated>
+    </task>
+    <task id="LOCAL-00002" summary=".">
+      <option name="closed" value="true" />
+      <created>1749961978350</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749961978350</updated>
+    </task>
+    <task id="LOCAL-00003" summary=".">
+      <option name="closed" value="true" />
+      <created>1749961985977</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749961985977</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,8 +236,22 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="complete source generator" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -189,6 +268,32 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MultiType.NET.SourceGenerator/program.cs</url>
+          <line>5</line>
+          <properties documentPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/program.cs" containingFunctionPresentation="Local function 'PrintHeader'">
+            <startOffsets>
+              <option value="88" />
+            </startOffsets>
+            <endOffsets>
+              <option value="89" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MultiType.NET.SourceGenerator/program.cs</url>
+          <line>50</line>
+          <properties documentPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/program.cs" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="1324" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1325" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

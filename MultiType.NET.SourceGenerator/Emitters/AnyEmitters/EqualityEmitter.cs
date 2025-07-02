@@ -8,7 +8,7 @@ internal static class EqualityEmitter
     public static void EmitEqualityMembers(StringBuilder sb, int arity)
     {
         var typeParams = string.Join(", ", Enumerable.Range(1, arity).Select(i => $"T{i}"));
-        var anyType = $"Any<{typeParams}>";
+        var anyType = $"global::MultiType.NET.Core.Anys.Generated.Any<{typeParams}>";
 
         sb.AppendLine($$"""
                             public override bool Equals(object? obj)

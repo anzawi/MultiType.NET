@@ -22,8 +22,8 @@ internal static class AnyEmitter
 
                                                """;
 
-    public const string AnyNamespace = "MultiType.NET.Core.Anys.Generated";
-    public const string AnyJsonConverterNamespace = "MultiType.NET.Core.Serialization.Generated";
+    private const string AnyNamespace = "MultiType.NET.Core.Anys.Generated";
+    private const string AnyJsonConverterNamespace = "MultiType.NET.Core.Serialization.Generated";
 
     private static readonly string OutputPath = Path.Combine(
         AppDomain.CurrentDomain.BaseDirectory,
@@ -49,32 +49,34 @@ internal static class AnyEmitter
 
     private const int MinArity = 2;
 
-    public static void EmitAnyTypes(int maxArity = 16)
+    public static void EmitAnyTypes(int maxArity, string outputPath, bool initial)
     {
-        Directory.CreateDirectory(OutputPath);
-        Directory.CreateDirectory(OutputSerializationPath);
+        var anyOutputPath = initial ? OutputPath : Path.Combine(outputPath, "Any");
+        var anySerializationOutputPath = initial ? OutputSerializationPath :  Path.Combine(outputPath, "Serialization");
+        Directory.CreateDirectory(anyOutputPath);
+        Directory.CreateDirectory(anySerializationOutputPath);
 
         for (var arity = MinArity; arity <= maxArity; arity++)
         {
+            if (!initial && arity < 17)
+            {
+                // skip generating < 17
+                continue;
+            }
+            
             Console.WriteLine($"Generating Any type for arity {arity}...");
             var typeContent = new AnyTypeBuilder(arity, AnyNamespace)
                 .AddCoreStructure()
-                // equality
                 .AddEqualityMembers()
-                // match
                 .AddMatchMethods()
                 .AddTryMatchMethods()
-                // get
                 .AddGetMethods()
                 .AddTryGetMethods()
-                // map
                 .AddMapMethods()
-                // select
                 .AddSelectMethods()
-                // switch
                 .AddSwitchMethods()
-                // de-construct
-                .AddDeconstructMethod()
+                .AddDeconstructMethod().
+                AddTryParseAndCastMethods()
                 .Build();
 
             var formattedTypeContent = FormattedContent(typeContent);
@@ -82,7 +84,7 @@ internal static class AnyEmitter
 
             Console.WriteLine($"Writing Any type for arity {arity}...");
             File.WriteAllText(
-                Path.Combine(OutputPath, $"Any{arity}.g.cs"),
+                Path.Combine(anyOutputPath, $"Any{arity}.g.cs"),
                 formattedTypeContent);
 
             Console.WriteLine($"'Any{arity}.g.cs' Generated");
@@ -101,22 +103,30 @@ internal static class AnyEmitter
 
             Console.WriteLine($"Writing Any type json converter for arity {arity}...");
             File.WriteAllText(
-                Path.Combine(OutputSerializationPath, $"Any{arity}JsonConverter.g.cs"),
+                Path.Combine(anySerializationOutputPath, $"Any{arity}JsonConverter.g.cs"),
                 formattedConvertorContent);
 
             Console.WriteLine($"'Any{arity}JsonConverter.g.cs' Generated");
         }
 
-        // generate AnyJsonConverterFactory
-        Console.WriteLine($"Writing Any type json converter factory for arity {maxArity} and above...");
-        var convertorFactoryContent = new AnyJsonConvertorFactoryBuilder(maxArity)
-            .AddConvertorFactory()
-            .Build();
-        var formattedConvertorFactoryContent = FormattedContent(convertorFactoryContent);
-        File.WriteAllText(
-            Path.Combine(OutputSerializationPath, $"AnyJsonConverterFactory.g.cs"),
-            formattedConvertorFactoryContent);
-        Console.WriteLine($"'AnyJsonConverterFactory.g.cs' Generated");
+        // No need for the factory anymore!
+        /*// generate AnyJsonConverterFactory
+        if (initial)
+        {
+            Console.WriteLine($"Writing Any type JSON converter factory for arity {maxArity} and above...");
+            var convertorFactoryContent = new AnyJsonConvertorFactoryBuilder(maxArity)
+                .AddConvertorFactory()
+                .Build();
+            var formattedConvertorFactoryContent = FormattedContent(convertorFactoryContent);
+            File.WriteAllText(
+                Path.Combine(anySerializationOutputPath, $"AnyJsonConverterFactory.g.cs"),
+                formattedConvertorFactoryContent);
+            Console.WriteLine("'AnyJsonConverterFactory.g.cs' Generated");
+        }
+        else
+        {
+            Console.WriteLine($"Skip JSON converter factory!. already generated.");
+        }*/
     }
 
     private static string FormattedContent(string? content)
