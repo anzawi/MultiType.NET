@@ -6,10 +6,8 @@ Bring TypeScript-style union types to C# — safer than `object`, cleaner than `
 Any<int, string> result = "hello";
 ```
 
-![NuGet](https://img.shields.io/nuget/v/MultiType.NET.Core)
-![Downloads](https://img.shields.io/nuget/dt/MultiType.NET.Core)
-![License](https://img.shields.io/github/license/mohammadan/MultiType.NET)
-![Build](https://img.shields.io/github/actions/workflow/status/mohammadan/MultiType.NET/ci.yml)
+[![NuGet](https://img.shields.io/nuget/v/MultiType.NET.Core)](https://www.nuget.org/packages/MultiType.NET.Core/)
+[![Downloads](https://img.shields.io/nuget/dt/MultiType.NET.Core)](https://www.nuget.org/packages/MultiType.NET.Core/)
 
 ---
 
@@ -17,7 +15,7 @@ Any<int, string> result = "hello";
 
 A **union type** lets a value be one of multiple specified types — like this in TypeScript:
 
-```
+```csharp
 let result = number | string | null
 
 // C# with MultiType.NET
@@ -36,17 +34,18 @@ MultiType.NET brings that idea to C# with full support for:
 
 ## ✨ Features Overview
 
-| Category       | Features |
-|----------------|----------|
-| ✅ Matching     | `Match`, `TryMatch`, `Switch`, `SwitchAsync`, `SwitchOrDefault` |
-| 🔁 Mapping      | `Map`, `MapAsync`, `MapSafe`, `MapValue`, `MapAny`, `MapWithContext`, `MapOrDefault`, `MapWhere` |
-| 🔍 Selection    | `Select`, `TrySelect`, `SelectAsync`, `SelectAsyncOrDefault`, `SelectWithContext`, `SelectWhere` |
-| 📦 Extraction   | `GetTn`, `TryGetTn`, `GetTn(out remainder)`, `Deconstruct(...)` |
-| 🧠 Introspection| `ActualType`, `AllowedTypes`, `IsNull`, `ToString()` |
-| ⚙️ Construction | `From`, `TryFrom`, `FromTn`, implicit/explicit operators |
-| 📤 Serialization| Native `System.Text.Json` support (global or attribute-based) |
-| 🧑‍💻 API-Ready   | Works with Controllers & Minimal APIs |
-| 🧩 Generator     | Auto-generates union types via `[GenerateAny]` or `Any<T1..Tn>` |
+| Category         | Features                                                                                         |
+|------------------|--------------------------------------------------------------------------------------------------|
+| ✅ Matching       | `Match`, `TryMatch`, `Switch`, `SwitchAsync`, `SwitchOrDefault`                                  |
+| 🔁 Mapping       | `Map`, `MapAsync`, `MapSafe`, `MapValue`, `MapAny`, `MapWithContext`, `MapOrDefault`, `MapWhere` |
+| 🔍 Selection     | `Select`, `TrySelect`, `SelectAsync`, `SelectAsyncOrDefault`, `SelectWithContext`, `SelectWhere` |
+| 📦 Extraction    | `GetTn`, `TryGetTn`, `GetTn(out remainder)`, `Deconstruct(...)`                                  |
+| 🧠 Introspection | `ActualType`, `AllowedTypes`, `IsNull`, `ToString()`                                             |
+| ⚙️ Construction  | `From`, `TryFrom`, `FromTn`, implicit/explicit operators                                         |
+| 📤 Serialization | Native `System.Text.Json` support (global or attribute-based)                                    |
+| 🧑‍💻 API-Ready  | Works with Controllers & Minimal APIs                                                            |
+| 🧩 Generator     | Auto-generates union types via `[GenerateAny]` or `Any<T1..Tn>`                                  |
+| 🧩 Model Binding | All types are Controller / Minimal-API Binding Ready                                             |
 
 ---
 
@@ -71,11 +70,11 @@ This gives you:
 | `MultiType.NET.SourceGenerator` | Enables `Any<T1..Tn>` (over 16 types), JSON support, API integration |
 
 
-```
+```bash
 dotnet add package MultiType.NET.Generator
 ```
 This allow you to generate a custom types with `[GenerateAny]`, for more details [MultiType.NET.Generator attribute](link-here).
-```
+```csharp
 [GenerateAny(typeof(string), typeof(MyType))]
 public partial struct MyCustomType{}
 ```
@@ -85,21 +84,22 @@ This will generate `MyCustomType` with all MultiType APIs.
 
 Install the official CLI generator:
 
-```
+```bash
 dotnet tool install --global MultiType.NET.SourceGenerator
 ```
 Then run:
 
-```
-multitypegen --maxArity=50
+```bash
+multitypegen --maxArity 50 --project PATH_TO_TARGET_PROJECT.csproj
 ```
 
 for more details and documentation [MultiType.NET.SourceGenerator CLI](link-here)
+
 ---
 
 ## 💡 Learn by Example
 
-```
+```csharp
 Any<int, string, DateTime> result = "hello";
 
 string output = result.Match(
@@ -109,14 +109,33 @@ string output = result.Match(
 );
 ```
 
+```csharp
+// Using generic Any<T1, T2, T3> directly from body
+[HttpPost("process-multi-type")]
+public async Task<IActionResult> ProcessMultiTypeData(
+    [FromBody] Any<int, string, DateTime> requestData)
+{
+    // Example usage: requestData.Match(...)
+    return Ok();
+}
+
+// Using generic Any<T1, T2, T3> from query string (less typical, but possible)
+[HttpGet("query-multi-type")]
+public async Task<IActionResult> QueryMultiTypeData(
+    [FromQuery] Any<int, string, DateTime> queryData)
+{
+    return Ok();
+}
 ```
+
+```csharp
 if (result.TryGetT1(out var i, out var remainder))
     Console.WriteLine($"Was int: {i}");
 else
     Console.WriteLine($"Not an int: {remainder}");
 ```
 
-```
+```csharp
 var summary = result.Select(
     i => $"# {i}",
     s => s.ToUpperInvariant(),
@@ -132,7 +151,7 @@ MultiType.NET offers multiple ways to construct union values.
 
 ### ✅ `From(...)` — dynamic dispatch
 
-```
+```csharp
 object raw = 123;
 var value = Any<int, string, DateTime>.From(raw);
 ```
@@ -141,7 +160,7 @@ var value = Any<int, string, DateTime>.From(raw);
 
 ### ✅ `TryFrom(...)` — safe version
 
-```
+```csharp
 if (Any<int, string>.TryFrom(someValue, out var result))
 {
     // Use result
@@ -150,7 +169,7 @@ if (Any<int, string>.TryFrom(someValue, out var result))
 
 ### ✅ `FromTn(...)` — type-specific creation
 
-```
+```csharp
 var a = Any<int, string, bool>.FromT1(42);
 var b = Any<int, string, bool>.FromT2("hello");
 ```
@@ -159,7 +178,7 @@ var b = Any<int, string, bool>.FromT2("hello");
 
 ### ✅ Implicit Operators
 
-```
+```csharp
 Any<int, string> v1 = 5;
 Any<int, string> v2 = "done";
 ```
@@ -168,27 +187,18 @@ Any<int, string> v2 = "done";
 
 ## 📦 JSON Serialization
 
-MultiType.NET works seamlessly with `System.Text.Json`.
+MultiType.NET works seamlessly with `System.Text.Json` without any manual changes.
 
-### ✅ Global registration
-
-```
-builder.Services.Configure<JsonOptions>(opts =>
-{
-    opts.JsonSerializerOptions.Converters.Add(new AnyJsonConverterFactory());
-});
-```
 
 ### ✅ Per-type registration
 
-```
-[JsonConverter(typeof(AnyJsonConverterFactory))]
+```csharp
 public readonly partial struct MyUnionType;
 ```
 
 ### 🧪 Example
 
-```
+```csharp
 var options = new JsonSerializerOptions { WriteIndented = true };
 string json = JsonSerializer.Serialize(Any<int, string>.From(123), options);
 ```
@@ -200,13 +210,32 @@ string json = JsonSerializer.Serialize(Any<int, string>.From(123), options);
 ## 🧩 Custom Types with `[GenerateAny]`
 > ⚠️ Requires `MultiType.NET.Generator` installed.
 
-```
+```csharp
 [GenerateAny(typeof(int), typeof(string), typeof(Guid))]
-public partial struct ResponsePayload;
+public partial struct Payload;
 ```
+```csharp
+// POST endpoint accepting Payload from body
+[HttpPost("submit-payload")]
+public async Task<IActionResult> SubmitPayload(
+    [FromBody] Payload payload)
+{
+    // payload.Match(...)
+    return Ok();
+}
+
+// GET endpoint accepting Payload from query
+[HttpGet("search")]
+public async Task<IActionResult> SearchPayload(
+    [FromQuery] Payload query)
+{
+    return Ok();
+}
 
 ```
-ResponsePayload payload = Guid.NewGuid();
+
+```csharp
+Payload payload = Guid.NewGuid();
 
 payload.Match(
     i => Console.WriteLine($"Int: {i}"),
@@ -216,7 +245,7 @@ payload.Match(
 ```
 
 ** More advanced Type**
-```
+```csharp
 [GenerateAny(typeof(Success), typeof(Warning), typeof(Error), typeof(Info))]
 public partial struct StatusType
 {

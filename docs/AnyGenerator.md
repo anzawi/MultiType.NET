@@ -28,7 +28,7 @@ dotnet add package MultiType.NET.Generator
 public partial struct IntOrString;
 ```
 
-### 3️⃣ Use It Like Any\<T1, T2>
+### 3️⃣ Use It Like Any<T1, T2>
 
 ```csharp
 IntOrString value = "hello";
@@ -72,25 +72,33 @@ public partial struct StatusType
 
 ## 📤 JSON Support
 
-The generated type is automatically decorated to support `System.Text.Json`.
-
-### Global Config
-
-```csharp
-builder.Services.Configure<JsonOptions>(opts =>
-{
-    opts.JsonSerializerOptions.Converters.Add(new AnyJsonConverterFactory());
-});
-```
-
-### Per-Type Config
-
-```csharp
-[JsonConverter(typeof(AnyJsonConverterFactory))]
-public partial struct MyUnionType;
-```
+The generated type is automatically decorated to support `System.Text.Json` **Without any manual changes**.
 
 ---
+
+```csharp
+// Generates a discriminated union of int, string, or Guid
+[GenerateAny(typeof(int), typeof(string), typeof(Guid))]
+public partial struct Payload;
+```
+```csharp
+// POST endpoint accepting Payload from body
+[HttpPost("submit-payload")]
+public async Task<IActionResult> SubmitPayload(
+    [FromBody] Payload payload)
+{
+    // payload.Match(...)
+    return Ok();
+}
+
+// GET endpoint accepting Payload from query
+[HttpGet("search")]
+public async Task<IActionResult> SearchPayload(
+    [FromQuery] Payload query)
+{
+    return Ok();
+}
+```
 
 ## ✅ Use Cases
 
@@ -106,7 +114,7 @@ public partial struct MyUnionType;
 
 * Generated files are `.g.cs` and automatically included during compilation.
 * Works with source generators (no runtime reflection).
-* Types must be `readonly struct` or `record struct`.
+* Types must be `readonly struct`.
 
 ---
 

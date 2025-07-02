@@ -29,7 +29,7 @@ dotnet tool update --global MultiType.NET.SourceGenerator
 From your solution root:
 
 ```bash
-anygen --maxArity=50
+anygen --maxArity 50 --project PATH_TO_TARGET_PROJECT.csproj
 ```
 
 This will:
@@ -40,9 +40,10 @@ This will:
 
 ### Options
 
-| Flag           | Description                                           |
-| -------------- | ----------------------------------------------------- |
-| `--maxArity=n` | Max number of generic types to generate (default: 16) |
+| Flag                | Description                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| `--maxArity n`      | Max number of generic types to generate (Required +17)                      |
+| `--project <PATH>`  | Target project `csproj` path, where the Any types will generated (Required) |
 
 ---
 
@@ -50,7 +51,7 @@ This will:
 
 The generated files will be placed directly into your project:
 
-```
+```markdown
 MultiType.NET.Core/
 ├── Anys/Generated/
 │   ├── Any17.g.cs
@@ -62,7 +63,7 @@ MultiType.NET.Core/
 │   └── AnyJsonConverterFactory.g.cs
 ```
 
-> 📌 Make sure you are installed `MultiType.NET` package.
+> 📌 Make sure you are installed `MultiType.NET.Core` package.
 
 ---
 
@@ -83,7 +84,7 @@ You can re-run the generator at any time. Existing `.g.cs` files will be overwri
 To automate this, add a build script:
 
 ```bash
-multitypegen --maxArity=50 --silent
+multitypegen --maxArity 50 --project ./my-poroject.csproj
 ```
 
 ---
@@ -91,7 +92,7 @@ multitypegen --maxArity=50 --silent
 ## ⚠️ Notes
 
 * The CLI must be run manually (it is not a source generator by itself).
-* It works alongside `MultiType.NET` in the same solution.
+* It works alongside `MultiType.NET.Core` in the same solution.
 * Do not manually edit `.g.cs` files.
 
 ---

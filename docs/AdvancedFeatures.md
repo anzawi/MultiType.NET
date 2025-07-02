@@ -339,12 +339,7 @@ Pretty representation of the current value.
 ---
 
 ## 📤 JSON Support
-
-### 🔧 Global Configuration
-
-```csharp
-options.Converters.Add(new AnyJsonConverterFactory());
-```
+All types already decorated with proper JSON convertor and ready to use with controllers.
 
 ### 📌 Attribute-Based
 
