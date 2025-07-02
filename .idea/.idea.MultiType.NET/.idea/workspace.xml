@@ -8,12 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41dcdd8c-b817-4602-b7d2-0942c10995e4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MultiType.NET/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/AdvancedFeatures.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/AdvancedFeatures.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/AnyGenerator.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/AnyGenerator.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/CLIGenerator.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/CLIGenerator.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Core/MultiType.NET.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Core/MultiType.NET.Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.Generators/MultiType.NET.Generators.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.Generators/MultiType.NET.Generators.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/MultiType.NET.SourceGenerator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MultiType.NET.SourceGenerator/MultiType.NET.SourceGenerator.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Initial_push" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -85,7 +83,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Initial__push",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -141,7 +139,7 @@
       <workItem from="1750466226995" duration="3667000" />
       <workItem from="1750536646859" duration="3589000" />
       <workItem from="1751493962152" duration="107000" />
-      <workItem from="1751494085394" duration="3184000" />
+      <workItem from="1751494085394" duration="3967000" />
     </task>
     <task id="LOCAL-00001" summary="complete source generator">
       <option name="closed" value="true" />
@@ -183,7 +181,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751494639997</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Update documentation for clearer CLI options, JSON support improvements, and added LICENSE file">
+      <option name="closed" value="true" />
+      <created>1751497289695</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1751497289695</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,7 +214,8 @@
     <MESSAGE value="." />
     <MESSAGE value="Update `.gitignore` to exclude local NuGet configurations and packages" />
     <MESSAGE value="Remove sample project and obsolete suppressor; enhance generated code with updated runtime version." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove sample project and obsolete suppressor; enhance generated code with updated runtime version." />
+    <MESSAGE value="Update documentation for clearer CLI options, JSON support improvements, and added LICENSE file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update documentation for clearer CLI options, JSON support improvements, and added LICENSE file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

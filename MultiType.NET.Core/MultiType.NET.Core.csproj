@@ -6,12 +6,12 @@
         <Nullable>enable</Nullable>
         <!-- ✅ NuGet Package Metadata -->
         <PackageId>MultiType.NET.Core</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Authors>Mohammad</Authors>
         <Company>YourCompanyOrHandle</Company>
         <Description>MultiType.NET is a lightweight union-type system for C# with source generation support.</Description>
         <PackageTags>union-type;source-generator;C#;dotnet;Roslyn</PackageTags>
-        <RepositoryUrl>https://github.com/your/repo</RepositoryUrl>
+        <RepositoryUrl>https://github.com/anzawi/MultiType.NET</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
         <!-- ✅ Include source and symbols -->

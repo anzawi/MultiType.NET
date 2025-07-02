@@ -12,11 +12,13 @@
         <OutputItemType>Analyzer</OutputItemType>
         <IncludeBuildOutput>false</IncludeBuildOutput> <!-- avoids lib folder -->
         <PackageId>MultiType.NET.Generators</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Authors>Mohammad Anzawi</Authors>
         <Description>A .NET source generator for Any types</Description>
         <IsPackable>true</IsPackable>
-        <PackageTags>Roslyn;Analyzer;SourceGenerator</PackageTags>
+        <PackageTags>union-type;source-generator;C#;dotnet;Roslyn</PackageTags>
+        <RepositoryUrl>https://github.com/anzawi/MultiType.NET</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         
         <NoWarn>NU5128</NoWarn>
         <IncludeAnalyzerReleaseTrackingFiles>true</IncludeAnalyzerReleaseTrackingFiles>

@@ -6,7 +6,7 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>MultiType.NET.SourceGenerator</RootNamespace>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>anygen</ToolCommandName>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -15,6 +15,9 @@
         <LangVersion>latest</LangVersion>
         <IncludeAnalyzerReleaseTrackingFiles>true</IncludeAnalyzerReleaseTrackingFiles>
         <IsPackable>true</IsPackable>
+        <PackageTags>union-type;source-generator;C#;dotnet;Roslyn</PackageTags>
+        <RepositoryUrl>https://github.com/anzawi/MultiType.NET</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4"/>
